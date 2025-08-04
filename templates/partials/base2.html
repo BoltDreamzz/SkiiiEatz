@@ -1,0 +1,441 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>SkiiiEatz</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Favocin link -->
+    <link rel="icon" href="{% static 'images/see.png.png' %}" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'images/see.png.png' %}" type="image/png">
+    <link rel="shortcut icon" href="{% static 'images/see.png.png' %}" type="image/png">
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'color-shift': 'colorShift 4s ease-in-out infinite',
+                        'scale-up-and-down': 'scaleUpAndDown 2s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        colorShift: {
+                            '0%, 100%': { backgroundColor: '#ef4444' },
+                            '25%': { backgroundColor: '#f97316' },
+                            '50%': { backgroundColor: '#eab308' },
+                            '75%': { backgroundColor: '#22c55e' }
+                        },
+                        scaleUpAndDown: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FCA311',
+                        secondary: '#F7931E',
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<style>
+    html {
+        scroll-behavior: smooth;
+        background: #FFF1D9;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .text-orange {
+        color: #FCA311;
+        /* color: #F7931E; */
+    }
+
+    .two-draw {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media screen and (max-width: 640px) {
+        .two-draw {
+            display: none;
+        }
+
+    }
+
+    .dropdown-content {
+        background: transparent;
+    }
+
+    .__unique {
+        /* background: #FFF1D9;
+        border: 2px solid #FCA311;
+        margin: 3px 0;
+        border-radius: 13px;
+        padding: 5px 10px; */
+        /* background: #000; */
+        /* color: #FCA311; */
+        /* font-weight: 600; */
+    }
+
+    #scrollTopBtn {
+        position: fixed;
+        bottom: 40px;
+        right: 30px;
+        z-index: 100;
+        /* background-color: #1d4ed8; */
+        /* Tailwind blue-700 */
+        /* color: white; */
+        border: none;
+        padding: 14px 18px;
+        /* border-radius: 50%; */
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    #scrollTopBtn:hover {
+        /* background-color: #2563eb; */
+        /* Tailwind blue-600 */
+        transform: scale(1.1);
+    }
+</style>
+
+<!-- Loading Screen -->
+<div id="preloader" class="fixed inset-0 bg-black z-150 flex gap-2 items-center justify-center">
+    <div class="flex animate-bounce">
+            <img src="{% static 'images/seei.png' %}" alt="Loading..." class="w-24 h-24" />
+            <img src="{% static 'images/seei.png' %}" alt="Loading..." class="h-24 w-auto" />
+
+    </div>
+</div>
+<!-- Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const preloader = document.getElementById('preloader');
+        const mainContent = document.getElementById('main-content');
+
+        const start = Date.now();
+
+        // Wait until page is fully loaded
+        window.addEventListener('load', () => {
+            const timePassed = Date.now() - start;
+            const extraWait = Math.max(2000 - timePassed, 0);
+
+            setTimeout(() => {
+                preloader.classList.add('opacity-0');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    mainContent.classList.remove('opacity-0');
+                }, 500); // fade out time
+            }, extraWait);
+        });
+    });
+</script>
+
+<body class="">
+    <!-- Hero Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl flex font-bold text-primary"><img src="{%static 'images/see.png'%}" alt=""
+                            class="w-12 h-12"></h1>
+                    <div class="flex items-center space-x-2 text-xs text-gray-600">
+                        <i class="fas fa-map-marker-alt text-primary"></i>
+                        <span class="text-sm locationDiv">Downtown, NYC</span>
+                        <i onclick="modal1.showModal()" class="fas fa-chevron-down text-xs"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </i>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Search restaurants, supermarkets..."
+                            class="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <button class="md:hidden">
+                        <i class="fas fa-search text-gray-600"><svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path
+                                    d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                            </svg>
+
+                        </i>
+                    </button>
+                    <button onclick="modal2.showModal()" class="relative">
+                        <i class="fas fa-shopping-cart"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" class="size-5">
+                                <path
+                                    d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                            </svg>
+                        </i>
+                        <span
+                            class="absolute -top-2 -right-2 bg-primary text-black text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Modal 1 -->
+    <dialog id="modal1" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Delivery Address</h3>
+            <p class="py-4">This is the content of Modal 1.</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-primary">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Modal 2 -->
+    <dialog id="modal2" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Shopping basket</h3>
+            <p class="py-4">Here is what's in Modal 2.</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-success">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Modal 3 -->
+    <dialog id="modal3" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Modal 3</h3>
+            <p class="py-4">Content for the third modal goes here.</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-secondary">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    {% if messages %}
+    <script>
+        {% for message in messages %}
+        Toastify({
+            text: "{{ message|escapejs }}",
+            duration: 5000,
+            gravity: "top",
+            position: "center",
+            backgroundColor: "{% if message.tags == 'error' %}#f56565{% elif message.tags == 'success' %}#48bb78{% else %}#4299e1{% endif %}"
+        }).showToast();
+        {% endfor %}
+    </script>
+    {% endif %}
+
+    <div class="drawer z-15">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+
+        <div class="drawer-side">
+            <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+
+            <ul class="menu bg-black text-orange text-base-content min-h-full w-80 p-5">
+                <div class="container flex items-center justify-center">
+                    <img src="{%static 'images/two.png'%}" class="max-w-50 h-auto" alt="">
+                </div>
+                <!-- Sidebar content here -->
+                <li><a>Sidebar Item 1</a></li>
+                <li><a>Sidebar Item 2</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="main-content" class="opacity-0 transition-opacity duration-500">
+        {%block content%}{%endblock%}
+    </div>
+
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="min-w-12 h-12 bg-black text-primary rounded-2xl shadow-md" title="Go to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+            <path fill-rule="evenodd"
+                d="M9.47 4.72a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 6.31l-3.72 3.72a.75.75 0 1 1-1.06-1.06l4.25-4.25Zm-4.25 9.25 4.25-4.25a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 11.31l-3.72 3.72a.75.75 0 0 1-1.06-1.06Z"
+                clip-rule="evenodd" />
+        </svg>
+
+    </button>
+    <script>
+        // Show button after scrolling down one viewport height
+        window.onscroll = function () {
+            const btn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > window.innerHeight || document.documentElement.scrollTop > window.innerHeight) {
+                btn.style.display = "block";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        // Scroll to top instantly
+        document.getElementById("scrollTopBtn").addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="bg-black text-primary py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg flex items-center font-bold mb-4"><img src="{%static 'images/seei.png'%}" alt=""
+                            class="w-12 h-12"> SkiiiEatz</h3>
+                    <p class="text-gray-400 text-sm">Your favorite restaurants, delivered fast and fresh to your door.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Safety</a></li>
+                        <li><a href="#" class="hover:text-white">Terms</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Get the App</h4>
+                    <div class="space-y-2">
+                        <a href="#" class="block">
+                            <img src="/placeholder.svg?height=40&width=120" alt="Download on App Store" class="h-10">
+                        </a>
+                        <a href="#" class="block">
+                            <img src="/placeholder.svg?height=40&width=120" alt="Get it on Google Play" class="h-10">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 FoodHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-yellow-500', 'text-white');
+                        b.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                    });
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    this.classList.add('active', 'bg-yellow-500', 'text-white');
+                    this.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+
+                    // Show target content
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Initialize first tab as active
+            tabBtns[0].classList.add('active', 'bg-yellow-500', 'text-white');
+            tabBtns.forEach((btn, index) => {
+                if (index !== 0) {
+                    btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                }
+            });
+
+            // Smooth scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-slide-up');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe transition cards
+            document.querySelectorAll('.transition-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+    <script>
+        AOS.init();
+    </script>
+
+</body>
+
+</html>

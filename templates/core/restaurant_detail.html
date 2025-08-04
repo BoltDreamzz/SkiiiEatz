@@ -1,0 +1,1076 @@
+{% extends 'partials/base2.html' %}
+{% load static %}
+{% load rating_tags %}
+{% load humanize %}
+
+{% block title %}{{ eatery.name }} - Eatz{% endblock %}
+
+
+{% block content %}
+
+<div class="flex z-55 gap-3 items-center mx-3 my-4">
+    <button onclick="history.back()"
+        class="p-2 flex items-center justify-center min-w-12 h-12 bg-white shadow-md rounded-2xl"><svg
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+            <path fill-rule="evenodd"
+                d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                clip-rule="evenodd" />
+        </svg>
+
+    </button>
+    Go Back
+    <!-- <a href="#" class="">Eatz</a> -->
+</div>
+<div class="flex items-center justify-center p-3" data-aos="flip-right" data-aos-duration="500">
+    <!-- Header -->
+    <div class="w-100 flex items-center justify-center mb-3"
+        hx-get="{% url 'restaurants:restaurant-status-partial' restaurant.pk %}" hx-trigger="load, every 5s"
+        hx-swap="outerHTML" id="restaurant-status-{{ restaurant.pk }}" hx-headers="{cache-control: 'no-cache'}">
+        <!-- {% include 'restaurant/_countdown.html' %} -->
+        {% include 'restaurant/_status.html' %}
+    </div>
+</div>
+
+<main class="p-3">
+
+
+
+
+
+    <!-- Restaurant Hero Section -->
+    <section class="relative mb-3">
+        <div class="h-64 md:h-80 relative overflow-hidden rounded-2xl">
+            <img src="{{restaurant.image.url}}?height=320&width=800" alt="Tony's Pizza Palace"
+                class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+            <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg">
+                <i class="fas fa-heart text-gray-400 text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Restaurant Info Overlay -->
+        <div class="absolute rounded-2xl bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+            <div class="max-w-7xl mx-auto">
+                <h1 class="text-3xl font-bold text-white mb-2">{{restaurant.name}}</h1>
+                <div class="flex items-center space-x-4 text-white text-sm">
+                    <div class="flex items-center">
+                        <div class="flex text-yellow-400 text-lg">
+                            {{ restaurant.rating|inline_star_rating|safe }}
+                        </div>
+                        <span class="text-xs text-white ml-1">
+                            {{ restaurant.rating }}
+                            ({{restaurant.review_count|default:'10+'}})</span>
+                    </div>
+                    <span>•</span>
+                    <span>{{restaurant.tags|default:'Lagos, Tasty' }}</span>
+                    <span>•</span>
+                    <span>{{restaurant.budget_category}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Info Bar -->
+    <section class="bg-white mb-3 rounded-2xl">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <!-- <div class="flex items-center"> -->
+            <div class="flex items-center justify-between space-x-6">
+                <div class="flex flex-col text-xs items-center space-x-2">
+                    <i class="fas fa-clock text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </i>
+                    <span class="text-sm">{{restaurant.preparation_time}}-55 min</span>
+                </div>
+                <div class="flex flex-col items-center space-x-2">
+                    <i class="fas fa-truck text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" class="size-5">
+                            <path
+                                d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 0 0 2 4.607V10.5h9V4.606c0-.771-.59-1.43-1.375-1.489A41.568 41.568 0 0 0 6.5 3ZM2 12v2.5A1.5 1.5 0 0 0 3.5 16h.041a3 3 0 0 1 5.918 0h.791a.75.75 0 0 0 .75-.75V12H2Z" />
+                            <path
+                                d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM13.25 5a.75.75 0 0 0-.75.75v8.514a3.001 3.001 0 0 1 4.893 1.44c.37-.275.61-.719.595-1.227a24.905 24.905 0 0 0-1.784-8.549A1.486 1.486 0 0 0 14.823 5H13.25ZM14.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+                        </svg>
+                    </i>
+                    <span class="text-sm">₦1,999 delivery</span>
+                </div>
+                <div class="flex flex-col items-center space-x-2">
+                    <i class="fas fa-store text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" class="size-5">
+                            <path
+                                d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
+                        </svg>
+                    </i>
+                    <span class="text-sm">Pickup available</span>
+                </div>
+            </div>
+
+            <!-- </div> -->
+        </div>
+    </section>
+
+    <!-- Menu Categories -->
+    <section class="bg-white sticky rounded-2xl top-16 z-50 border-b">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex space-x-6 overflow-x-auto scrollbar-hide" id="menu-categories">
+                <button class="flex-shrink-0 text-primary border-b-2 border-primary pb-2 font-medium text-sm" hx-get=""
+                    hx-target="">
+                    Popular
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Pizza
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Pasta
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Salads
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Appetizers
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Desserts
+                </button>
+                <button
+                    class="flex-shrink-0 text-gray-600 hover:text-primary pb-2 font-medium text-sm transition-colors"
+                    hx-get="" hx-target="">
+                    Drinks
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Banner -->
+    <section class="bg-gradient-to-r from-primary to-secondary text-black py-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center space-x-2">
+                <i class="fas fa-fire text-yellow-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M13.5 4.938a7 7 0 1 1-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 0 1 .572-2.759 6.026 6.026 0 0 1 2.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0 0 13.5 4.938ZM14 12a4 4 0 0 1-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 0 0 1.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 0 1 1.315-4.192.447.447 0 0 1 .431-.16A4.001 4.001 0 0 1 14 12Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </i>
+                <span class="text-sm font-medium">Free delivery on orders over ₦45,000 • Use code: FREE-CHOW</span>
+                <i class="fas fa-fire text-yellow-300"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M13.5 4.938a7 7 0 1 1-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 0 1 .572-2.759 6.026 6.026 0 0 1 2.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0 0 13.5 4.938ZM14 12a4 4 0 0 1-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 0 0 1.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 0 1 1.315-4.192.447.447 0 0 1 .431-.16A4.001 4.001 0 0 1 14 12Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Items Grid -->
+    <section class="py-6" id="menu-items">
+        <div class="max-w-7xl mx-auto px-4">
+
+            <!-- Popular Items -->
+             {%if most_popular%}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-fire text-primary mr-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                            fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M13.5 4.938a7 7 0 1 1-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 0 1 .572-2.759 6.026 6.026 0 0 1 2.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0 0 13.5 4.938ZM14 12a4 4 0 0 1-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 0 0 1.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 0 1 1.315-4.192.447.447 0 0 1 .431-.16A4.001 4.001 0 0 1 14 12Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </i>
+                    Most Popular
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Menu Item 1 -->
+                    {%for m in most_popular%}
+                    <div class="hover:shadow-md p-2 openDetail">
+                        <div class="relative">
+                            <img src="{{m.image.url}}?height=160&width=300" alt="Margherita Pizza"
+                                class="w-full h-40 object-cover rounded-t-lg">
+                            <div class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                                Most Popular
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-semibold text-gray-800">{{m.name}}</h3>
+                                <span class="text-lg font-bold text-primary">₦{{m.price}}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">{{m.description}}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-star text-yellow-400 mr-1"><svg xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </i>
+                                    <span>4.8 (156)</span>
+                                </div>
+                                <form hx-post="{% url 'core:add_menu_item_to_cart' restaurant.id m.id %}"
+                                    hx-target="#packs" hx-swap="outerHTML">
+                                    <button class="rounded-2xl bg-primary p-3" type="submit">Add to Cart</button>
+                                </form>
+                                {% include "partials/add_to_pack_button.html" with object=product app_label="supermarket" model_name="supermarketproduct" packs=user.cart.cartpack_set.all %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                    {%endfor%}
+
+                </div>
+            </div>
+            {%else%}
+            <h3 class="font-semibold text-gray-800">Please come back when meals have been added.</h3>
+            
+           {%endif%}
+            <!-- Pizza Section -->
+            {%for c in categories%}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-pizza-slice text-primary mr-2"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M9.493 2.852a.75.75 0 0 0-1.486-.204L7.545 6H4.198a.75.75 0 0 0 0 1.5h3.14l-.69 5H3.302a.75.75 0 0 0 0 1.5h3.14l-.435 3.148a.75.75 0 0 0 1.486.204L7.955 14h2.986l-.434 3.148a.75.75 0 0 0 1.486.204L12.456 14h3.346a.75.75 0 0 0 0-1.5h-3.14l.69-5h3.346a.75.75 0 0 0 0-1.5h-3.14l.435-3.148a.75.75 0 0 0-1.486-.204L12.045 6H9.059l.434-3.148ZM8.852 7.5l-.69 5h2.986l.69-5H8.852Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </i>
+                    {{c.name}}
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Pizza Item 1 -->
+                    <div class="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=160&width=300" alt="Supreme Pizza"
+                                class="w-full h-40 object-cover rounded-t-lg">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-800">Supreme Pizza</h3>
+                                <span class="text-lg font-bold text-primary">$24.99</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Pepperoni, sausage, bell peppers, onions, mushrooms,
+                                and olives</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-star text-yellow-400 mr-1"><svg xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                            <path fill-rule="evenodd"
+                                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </i>
+                                    <span>4.5 (134)</span>
+                                </div>
+                                <button
+                                    class="bg-primary text-black px-4 py-2 rounded-2xl text-sm font-medium hover:bg-opacity-90 transition-colors"
+                                    hx-post="/cart/add"
+                                    hx-vals='{"item_id": "4", "name": "Supreme Pizza", "price": "24.99"}'
+                                    hx-target="#cart-count" hx-swap="innerHTML">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pizza Item 2 -->
+                    <div class="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=160&width=300" alt="Hawaiian Pizza"
+                                class="w-full h-40 object-cover rounded-t-lg">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-800">Hawaiian Pizza</h3>
+                                <span class="text-lg font-bold text-primary">$19.99</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Ham, pineapple, and mozzarella cheese with tomato
+                                sauce</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <span>4.3 (98)</span>
+                                </div>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition-colors"
+                                    hx-post="/cart/add"
+                                    hx-vals='{"item_id": "5", "name": "Hawaiian Pizza", "price": "19.99"}'
+                                    hx-target="#cart-count" hx-swap="innerHTML">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pizza Item 3 -->
+                    <div class="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow">
+                        <div class="relative">
+                            <img src="/placeholder.svg?height=160&width=300" alt="Meat Lovers Pizza"
+                                class="w-full h-40 object-cover rounded-t-lg">
+                            <div class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                Spicy
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-semibold text-gray-800">Meat Lovers Pizza</h3>
+                                <span class="text-lg font-bold text-primary">$26.99</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Pepperoni, sausage, bacon, ham, and ground beef</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-star text-yellow-400 mr-1"></i>
+                                    <span>4.7 (187)</span>
+                                </div>
+                                <button
+                                    class="bg-primary text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition-colors"
+                                    hx-post="/cart/add"
+                                    hx-vals='{"item_id": "6", "name": "Meat Lovers Pizza", "price": "26.99"}'
+                                    hx-target="#cart-count" hx-swap="innerHTML">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+
+        </div>
+    </section>
+
+    <!-- Restaurant Info Section -->
+    <section class="mb-3 bg-white rounded-2xl py-8 border border-2">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">About {{restaurant.name}}</h3>
+                    <p class="text-gray-600 text-sm mb-4">
+                        Family-owned since 1985, Tony's Pizza Palace has been serving authentic Italian cuisine with
+                        fresh ingredients and traditional recipes passed down through generations.
+                    </p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-utensils text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M2.5 3A1.5 1.5 0 0 0 1 4.5v4A1.5 1.5 0 0 0 2.5 10h6A1.5 1.5 0 0 0 10 8.5v-4A1.5 1.5 0 0 0 8.5 3h-6Zm11 2A1.5 1.5 0 0 0 12 6.5v7a1.5 1.5 0 0 0 1.5 1.5h4a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 17.5 5h-4Zm-10 7A1.5 1.5 0 0 0 2 13.5v2A1.5 1.5 0 0 0 3.5 17h6a1.5 1.5 0 0 0 1.5-1.5v-2A1.5 1.5 0 0 0 9.5 12h-6Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">{{restaurant.tags}}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-dollar-sign text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M1 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4Zm12 4a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM4 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm13-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM1.75 14.5a.75.75 0 0 0 0 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 0 0-1.5 0v.784a.272.272 0 0 1-.35.25A49.043 49.043 0 0 0 1.75 14.5Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">{{restaurant.budget_category}}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path
+                                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">Family-friendly</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hours -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Hours</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Monday</span>
+                            <span class="text-gray-600">11:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Tuesday</span>
+                            <span class="text-gray-600">11:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Wednesday</span>
+                            <span class="text-gray-600">11:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Thursday</span>
+                            <span class="text-gray-600">11:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Friday</span>
+                            <span class="text-gray-600">11:00 AM - 11:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Saturday</span>
+                            <span class="text-green-600 font-medium">11:00 AM - 11:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Sunday</span>
+                            <span class="text-gray-600">12:00 PM - 9:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact & Location -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact & Location</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-primary w-4 mt-1"><svg
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="m9.69 18.933.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 1 0 3 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 0 0 2.273 1.765 11.842 11.842 0 0 0 .976.544l.062.029.018.008.006.003ZM10 11.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">123 Main Street<br>Downtown, NYC 10001</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path
+                                        d="M3.5 2A1.5 1.5 0 0 0 2 3.5V5c0 1.149.15 2.263.43 3.326a13.022 13.022 0 0 0 9.244 9.244c1.063.28 2.177.43 3.326.43h1.5a1.5 1.5 0 0 0 1.5-1.5v-1.148a1.5 1.5 0 0 0-1.175-1.465l-3.223-.716a1.5 1.5 0 0 0-1.767 1.052l-.267.933c-.117.41-.555.643-.95.48a11.542 11.542 0 0 1-6.254-6.254c-.163-.395.07-.833.48-.95l.933-.267a1.5 1.5 0 0 0 1.052-1.767l-.716-3.223A1.5 1.5 0 0 0 4.648 2H3.5ZM16.72 2.22a.75.75 0 1 1 1.06 1.06L14.56 6.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.22-3.22Z" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">(555) 123-4567</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M2.106 6.447A2 2 0 0 0 1 8.237V16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.236a2 2 0 0 0-1.106-1.789l-7-3.5a2 2 0 0 0-1.788 0l-7 3.5Zm1.48 4.007a.75.75 0 0 0-.671 1.342l5.855 2.928a2.75 2.75 0 0 0 2.46 0l5.852-2.927a.75.75 0 1 0-.67-1.341l-5.853 2.926a1.25 1.25 0 0 1-1.118 0l-5.856-2.928Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">info@tonyspizza.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-globe text-primary w-4"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path
+                                        d="M16.555 5.412a8.028 8.028 0 0 0-3.503-2.81 14.899 14.899 0 0 1 1.663 4.472 8.547 8.547 0 0 0 1.84-1.662ZM13.326 7.825a13.43 13.43 0 0 0-2.413-5.773 8.087 8.087 0 0 0-1.826 0 13.43 13.43 0 0 0-2.413 5.773A8.473 8.473 0 0 0 10 8.5c1.18 0 2.304-.24 3.326-.675ZM6.514 9.376A9.98 9.98 0 0 0 10 10c1.226 0 2.4-.22 3.486-.624a13.54 13.54 0 0 1-.351 3.759A13.54 13.54 0 0 1 10 13.5c-1.079 0-2.128-.127-3.134-.366a13.538 13.538 0 0 1-.352-3.758ZM5.285 7.074a14.9 14.9 0 0 1 1.663-4.471 8.028 8.028 0 0 0-3.503 2.81c.529.638 1.149 1.199 1.84 1.66ZM17.334 6.798a7.973 7.973 0 0 1 .614 4.115 13.47 13.47 0 0 1-3.178 1.72 15.093 15.093 0 0 0 .174-3.939 10.043 10.043 0 0 0 2.39-1.896ZM2.666 6.798a10.042 10.042 0 0 0 2.39 1.896 15.196 15.196 0 0 0 .174 3.94 13.472 13.472 0 0 1-3.178-1.72 7.973 7.973 0 0 1 .615-4.115ZM10 15c.898 0 1.778-.079 2.633-.23a13.473 13.473 0 0 1-1.72 3.178 8.099 8.099 0 0 1-1.826 0 13.47 13.47 0 0 1-1.72-3.178c.855.151 1.735.23 2.633.23ZM14.357 14.357a14.912 14.912 0 0 1-1.305 3.04 8.027 8.027 0 0 0 4.345-4.345c-.953.542-1.971.981-3.04 1.305ZM6.948 17.397a8.027 8.027 0 0 1-4.345-4.345c.953.542 1.971.981 3.04 1.305a14.912 14.912 0 0 0 1.305 3.04Z" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">www.tonyspizza.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="py-8 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold">Customer Reviews</h2>
+                <button class="text-primary text-sm font-medium">Write a Review</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
+                            M
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-medium">Mike Johnson</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        "Amazing pizza! The crust is perfect and the ingredients are always fresh. Been coming here for
+                        years and it never disappoints."
+                    </p>
+                    <span class="text-xs text-gray-400 mt-2 block">2 days ago</span>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white font-semibold">
+                            S
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-medium">Sarah Chen</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        "Great pasta dishes and friendly service. The lasagna is incredible! Delivery was quick too."
+                    </p>
+                    <span class="text-xs text-gray-400 mt-2 block">1 week ago</span>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div
+                            class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold">
+                            D
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="font-medium">David Rodriguez</h4>
+                            <div class="flex text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        "Authentic Italian flavors and generous portions. The garlic bread is a must-try!"
+                    </p>
+                    <span class="text-xs text-gray-400 mt-2 block">2 weeks ago</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Cart Modal Placeholder -->
+    <div id="cart-modal"></div>
+
+    <!-- Custom Styles -->
+    <style>
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+
+    <!-- HTMX Scripts -->
+    <script>
+        // Update cart count when items are added
+        document.body.addEventListener('htmx:afterRequest', function (evt) {
+            if (evt.detail.xhr.status === 200 && evt.detail.pathInfo.requestPath.includes('/cart/add')) {
+                // Update cart count
+                const currentCount = parseInt(document.getElementById('cart-count').textContent);
+                document.getElementById('cart-count').textContent = currentCount + 1;
+            }
+        });
+
+        // Smooth scroll to menu categories
+        document.querySelectorAll('#menu-categories button').forEach(button => {
+            button.addEventListener('click', function () {
+                // Update active state
+                document.querySelectorAll('#menu-categories button').forEach(b => {
+                    b.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    b.classList.add('text-gray-600');
+                });
+                this.classList.remove('text-gray-600');
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+            });
+        });
+    </script>
+</main>
+<!-- Hero Section -->
+<!-- <section class="relative bg-dark-navy text-white py-20 text-center overflow-hidden">
+    <img src="{{eatery.image.url}}?height=600&width=1200" alt="Restaurant interior"
+        class="absolute inset-0 w-full h-full object-cover opacity-30">
+    <div class="relative z-10 container mx-auto px-4">
+        <h2 class="text-5xl font-extrabold mb-4 text-orange-accent">Welcome to {{eatery.name}}</h2>
+        <p class="text-xl max-w-2xl mx-auto mb-8">Experience a culinary journey with our exquisite dishes, crafted with
+            passion and the freshest ingredients.</p>
+        <a href="#menu"
+            class="bg-orange-accent text-dark-navy font-bold py-3 px-8 rounded-full hover:bg-white hover:text-dark-navy transition-all duration-300 shadow-lg">Explore
+            Our Menu</a>
+    </div>
+</section> -->
+
+
+<div class="bg-gradient-to-r from-skiii-orange via-skiii-yellow to-red-400 py-4 sm:py-6 lg:py-8">
+    <div class="px-4 max-w-7xl mx-auto">
+        <div class="flex items-start space-x-3 sm:space-x-4">
+            <div
+                class="w-12 bg-white h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                <img src="{{eatery.image.url}}" class="w-10 h-10 sm:w-14  object-cover rounded-xl sm:rounded-2xl"
+                    alt="">
+            </div>
+            <div class="flex-1 min-w-0">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{{eatery.name}}</h1>
+                <p class="text-sm sm:text-base text-white/90 mt-1">
+                    Fresh meals delivered fast! Open 7:00am - 11:00pm Daily. Your favorite food, delivered hot &
+                    fresh!
+                </p>
+                <div class="flex space-x-2 mt-2">
+                    <span class="bg-white/20 text-white text-xs px-2 py-1 rounded-full">-25% first order</span>
+                    <!-- <span class="bg-white/20 text-white text-xs px-2 py-1 rounded-full">Free delivery</span> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4 sm:space-x-8 mt-4 sm:mt-6">
+            <div class="flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                <img src="{%static 'badges/star.png'%}" class="w-5 -mt-1" alt="">
+                <span class="font-semibold text-sm sm:text-base text-dark-blue">{{eatery.rating|default:2.2}}</span>
+            </div>
+            <div class="flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                <img src="{%static 'badges/timet.png'%}" class="w-5" alt="">
+                <span class="font-semibold text-sm sm:text-base text-dark-blue">20-25 min</span>
+            </div>
+
+
+            <div class="flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                <img src="{%static 'badges/premiumm.png'%}" class="w-5" alt="">
+                <span class="font-semibold text-sm sm:text-base text-dark-blue">Premium</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-6 w-full">
+    <div class="container mx-auto px-3 py-3">
+
+
+
+        <!-- Menu Section -->
+        <main id="menu" class="container mx-auto py-6 px-3">
+
+            <!-- Food Category -->
+            <section class="">
+                <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
+                    class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
+                    Our <span style="color: #fca311;">Menu</span></h4>
+
+
+
+                {%for c in categories%}
+                <div class="mb-4 relative">
+                    <h2 class="text-lg font-bold text-gray-900 mb-2">{{c.name}}</h2>
+
+
+                    <div class="relative">
+                        <!-- Scroll Buttons (visible on larger screens, or always if desired) -->
+                        <button onclick="scrollCategories('left')"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 shadow-md flex items-center justify-center z-10 hidden md:flex">
+                            <i class="fa-solid fa-chevron-left text-gray-600"></i>
+                        </button>
+                        <button onclick="scrollCategories('right')"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full w-10 h-10 shadow-md flex items-center justify-center z-10 hidden md:flex">
+                            <i class="fa-solid fa-chevron-right text-gray-600"></i>
+                        </button>
+
+                        <div id="category-scroll-container" id="eateries-list"
+                            class="flex overflow-x-auto -mx-4 px-4 sm:px-0 sm:-mx-0 scroll-smooth no-scrollbar">
+                            <!-- Promotions -->
+                            {%for e in c.menu_items.all%}
+
+                            <a href="" class="text-decoration-none openDetail" data-id="{{ e.id }}"
+                                data-name="{{ e.name }}" data-price="{{ e.price }}" data-image="{{ e.image.url }}"
+                                data-ingredients="{{ e.ingredients|default:'Freshly bought ingredients'|escapejs }}"
+                                data-description="{{ e.description|default:'This meal is freshly cooked out of the Kitchen!'|escapejs }}"
+                                data-url="#" data-description="{{ e.description }}"
+                                data-calories="{{ e.calories|default:'0' }}"
+                                data-tags="{{ e.tags|default:'No tags'|escapejs }}">
+                                <div href=""
+                                    class="flex-shrink-0 w-[calc(50%-12px)] sm:w-[calc(33.33%-16px)] md:w-[calc(25%-16px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-16px)] mr-3 mb-2 sm:mr-4">
+                                    <div class="rounded-lg hover:shadow-lg transition-shadow">
+                                        <div class="p-3 sm:p-4">
+                                            <img src="{{e.image.url}}?w=300&h=200&fit=crop" alt="Pizza & Pasta"
+                                                class="w-full shadow-md h-20 sm:h-24 object-cover rounded-md mb-2 sm:mb-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <h3 class="text-sm line-clamp-2 min-h-18">{{e.name|truncatewords:3}}
+                                                </h3>
+
+
+
+                                            </div>
+                                            <!-- <div class="flex items-center justify-between"> -->
+                                            <div class="flex items-center justify-between gap-2">
+
+                                                <h3 class="text-sm font-bold flex gap-2 items-center">
+                                                    ₦{{e.price|intcomma}}</h3>
+                                                <a href="#"
+                                                    class="text-decoration-none">
+                                                    <div
+                                                        class="bg-orange py-1 px-2 badge text-dark-blue rounded-lg text-xs">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                            fill="currentColor" class="size-5">
+                                                            <path
+                                                                d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                                        </svg>
+                                                    </div>
+                                                </a>
+                                            </div>
+
+                                            <!-- </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+
+                            {%endfor%}
+
+
+
+                            <!-- Add more category cards as needed -->
+                        </div>
+                        <br>
+
+                    </div>
+                </div>
+                {%endfor%}
+            </section>
+            <!-- Category Scroll Section -->
+            <!-- Meals Section -->
+
+            <!-- Overlay and Modal Container -->
+            <!-- MODAL BACKDROP -->
+            <div id="mealModalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+            <!-- MODAL SLIDE-UP -->
+            <div id="mealModal"
+                class="fixed bottom-0 left-0 w-full flex flex-col justify-center items-center h-[95vh] bg-white z-50 rounded-t-3xl shadow-2xl translate-y-full transition-transform duration-300 ease-in-out py-4 px-2">
+                <div class="p-4 space-y-4 h-full max-w-5xl overflow-y-auto no-scrollbar">
+                    <div class="flex justify-between items-center">
+                        <button id="closeModal" class="bg-gray-200 p-3 rounded-2xl text-xl m-2"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+
+                    </div>
+                    <img id="modalMealImage" src="" alt=""
+                        class="w-full lg:max-w-5xl text-center h-60 object-cover rounded-3xl shadow" />
+                    <form id="modalForm" class="space-y-4">
+                        <h2 id="modalMealName" class="text-3xl mb-2 font-semibold"></h2>
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="font-bold text-3xl">₦<span id="modalMealPrice"></span></p>
+
+                            <!-- Quantity Selector -->
+                            <div class="flex items-center justify-center gap-4">
+                                <button type="button" id="decreaseQty"
+                                    class="bg-gray-200 text-black p-3 rounded-2xl text-xl"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        class="size-5">
+                                        <path fill-rule="evenodd"
+                                            d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                <span id="qtyDisplay" class="text-2xl font-semibold">1</span>
+                                <button type="button" id="increaseQty"
+                                    class="bg-gray-200 text-black p-3 rounded-2xl text-xl"><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                        class="size-5">
+                                        <path
+                                            d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-2 flex flex-col space-y-3">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="size-5">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-xl">About this meal</p>
+
+                            </div>
+                            <p id="modalMealDescription"
+                                class="text-gray-600 text-sm max-h-32 overflow-auto leading-relaxed">
+                                This meal is freshly cooked out of the Kitchen!
+                            </p>
+                        </div>
+                        <div class="mb-2 flex flex-col space-y-3">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="size-5">
+                                    <path
+                                        d="M2 4.25A2.25 2.25 0 0 1 4.25 2h2.5A2.25 2.25 0 0 1 9 4.25v2.5A2.25 2.25 0 0 1 6.75 9h-2.5A2.25 2.25 0 0 1 2 6.75v-2.5ZM2 13.25A2.25 2.25 0 0 1 4.25 11h2.5A2.25 2.25 0 0 1 9 13.25v2.5A2.25 2.25 0 0 1 6.75 18h-2.5A2.25 2.25 0 0 1 2 15.75v-2.5ZM11 4.25A2.25 2.25 0 0 1 13.25 2h2.5A2.25 2.25 0 0 1 18 4.25v2.5A2.25 2.25 0 0 1 15.75 9h-2.5A2.25 2.25 0 0 1 11 6.75v-2.5ZM15.25 11.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                                </svg>
+                                <p class="text-xl">Additional Info</p>
+
+                            </div>
+                            <p><strong>Ingredients:</strong> <span id="modalMealIngredients"></span></p>
+                            <p><strong>Calories:</strong> <span id="modalMealCalories"></span> kcal</p>
+                            <p><strong>Tags:</strong> <span id="modalMealTags"></span></p>
+                        </div>
+
+
+                        <input type="hidden" id="mealId" name="meal_id">
+
+
+                        <br><br>
+                        <!-- Add to Cart Button -->
+                        <div class="w-full max-w-5xl pt-2 sticky bottom-0 border-t shadow-t">
+                            <button type="submit" id="addToCartBtn"
+                                class="w-full bg-orange text-white py-4 rounded-2xl font-semibold transition-all">
+                                Add to Cart
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <script>
+                const modal = document.getElementById('mealModal');
+                const modalDesc = document.getElementById('modalMealDescription');
+                const modalIngredients = document.getElementById('modalMealIngredients');
+                const modalCalories = document.getElementById('modalMealCalories');
+                const modalTags = document.getElementById('modalMealTags');
+
+                const backdrop = document.getElementById('mealModalBackdrop');
+                const openButtons = document.querySelectorAll('.openDetail');
+                const closeModal = document.getElementById('closeModal');
+
+                const modalName = document.getElementById('modalMealName');
+                const modalImage = document.getElementById('modalMealImage');
+                const modalPrice = document.getElementById('modalMealPrice');
+                const mealIdInput = document.getElementById('mealId');
+                const qtyDisplay = document.getElementById('qtyDisplay');
+                const addToCartBtn = document.getElementById('addToCartBtn');
+
+                let currentQty = 1;
+
+                // OPEN MODAL
+                openButtons.forEach(btn => {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const name = this.dataset.name;
+                        const price = this.dataset.price;
+                        const image = this.dataset.image;
+                        const id = this.dataset.id;
+                        const url = this.dataset.url;
+                        const desc = this.dataset.description;
+                        // Set modal content
+
+                        modalIngredients.textContent = this.dataset.ingredients;
+                        modalCalories.textContent = this.dataset.calories;
+                        modalTags.textContent = this.dataset.tags;
+
+                        modalName.textContent = name;
+                        modalImage.src = image;
+                        modalPrice.textContent = parseInt(price).toLocaleString();
+                        mealIdInput.value = id;
+                        modalDesc.textContent = desc;
+                        qtyDisplay.textContent = 1;
+                        currentQty = 1;
+                        addToCartBtn.dataset.url = url;
+                        addToCartBtn.disabled = false;
+                        addToCartBtn.textContent = 'Add to Cart';
+
+                        // Show modal and backdrop
+                        backdrop.classList.remove('hidden');
+                        modal.classList.remove('translate-y-full');
+                    });
+                });
+
+                // CLOSE MODAL
+                closeModal.addEventListener('click', () => {
+                    modal.classList.add('translate-y-full');
+                    backdrop.classList.add('hidden');
+                });
+
+                // Quantity controls
+                document.getElementById('increaseQty').addEventListener('click', () => {
+                    currentQty++;
+                    qtyDisplay.textContent = currentQty;
+                });
+
+                document.getElementById('decreaseQty').addEventListener('click', () => {
+                    if (currentQty > 1) {
+                        currentQty--;
+                        qtyDisplay.textContent = currentQty;
+                    }
+                });
+
+                // Submit form
+                document.getElementById('modalForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const url = addToCartBtn.dataset.url;
+
+                    addToCartBtn.disabled = true;
+                    addToCartBtn.textContent = 'Adding...';
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ quantity: currentQty })
+                    })
+                        .then(res => {
+                            if (!res.ok) throw new Error("Failed to add to cart");
+                            return res.json();
+                        })
+                        .then(data => {
+                            addToCartBtn.textContent = 'Added ✔';
+                            setTimeout(() => {
+                                modal.classList.add('translate-y-full');
+                                backdrop.classList.add('hidden');
+                            }, 800);
+                        })
+                        .catch(err => {
+                            alert('Error adding to cart');
+                            addToCartBtn.disabled = false;
+                            addToCartBtn.textContent = 'Add to Cart';
+                        });
+                });
+            </script>
+
+
+
+
+            <a href="#" target="_blank" class="flex items-center text-decoration-none justify-center">
+                <img src="{%static 'badges/add_1-8.png'%}?w=600&h=400&fit=crop" alt="{{eatery.name}}"
+                    class="w-full h-auto" data-aos="flip-up" data-aos-duration="1000">
+            </a>
+
+
+        </main>
+        <section class="mx-auto py-6 px-3">
+            <!-- <div class=""> -->
+            <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
+                class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
+                About <span style="color: #fca311;">{{eatery.name}}</span></h4>
+
+            <!-- <p class="text-gray-600 mb-6">Order your dream Meal in a Flash.</p> -->
+            <!-- </div> -->
+            <div class="container py-6 text-center max-w-7xl">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <div class="w-full sm:w-1/2">
+                        <img src="{{eatery.image.url}}?w=600&h=400&fit=crop" alt="{{eatery.name}}"
+                            class="w-full h-64 rounded-2xl object-cover shadow-lg" data-aos="fade-up"
+                            data-aos-duration="500">
+                    </div>
+                    <div class="w-full sm:w-1/2 text-left">
+                        <!-- <h3 class="text-3xl font-bold mb-4">Welcome to {{eatery.name}}</h3> -->
+                        <p class="text-gray-700 mb-4">At {{eatery.name}}, we are passionate about bringing you the best
+                            dining experience. Our menu features a wide variety of dishes, crafted with the freshest
+                            ingredients and a touch of love.</p>
+                        <p class="text-gray-700">Join us for a meal that will tantalize your taste buds and leave you
+                            craving for more!</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <section class="mx-auto py-6 px-3">
+            <!-- <div class="text-center"> -->
+
+            <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
+                class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
+                Contact <span style="color: #fca311;">Us</span></h4>
+            <!-- <p class="text-gray-600 mb-6">Order your dream Meal in a Flash.</p> -->
+            <!-- </div> -->
+            <div class="container py-4 text-center max-w-7xl">
+                <div class="flex flex-col items-center justify-center gap-4">
+                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                        <img src="{%static 'badges/faceb.png'%}" class="w-10 -mt-1" alt="">
+                        <span class="font-semibold text-sm sm:text-base text-dark-blue">Facebook</span>
+                    </a>
+                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                        <img src="{%static 'badges/whats.png'%}" class="w-10" alt="">
+                        <span class="font-semibold text-sm sm:text-base text-dark-blue">WhatsApp</span>
+                    </a>
+
+
+                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                        <img src="{%static 'badges/tok.png'%}" class="w-10" alt="">
+                        <span class="font-semibold text-sm sm:text-base text-dark-blue">TikTok</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="mx-auto py-6 px-3">
+            <div class="text-center">
+                <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
+                    class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
+                    Join Our <span style="color: #fca311;">Team</span></h4>
+                <p class="text-gray-600 mb-6">Become a part of our vibrant team and help us deliver exceptional
+                    dining experiences.</p>
+            </div>
+            <div class="container py-4 text-center max-w-7xl">
+                <a href="#" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
+                    <a
+                        class="flex-shrink-0 w-[calc(50%-12px)] sm:w-[calc(33.33%-16px)] md:w-[calc(25%-16px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-16px)] mr-3 sm:mr-4">
+                        <div class="rounded-lg hover:shadow-md transition-shadow">
+                            <div
+                                class="p-3 sm:p-4 bg-orange-200 flex-col rounded-2xl min-h-32 flex items-center justify-center">
+                                <img src="{%static 'badges/verified.png'%}?w=50&h=50" alt="Join the Universe"
+                                    class="h-10 sm:h-12 object-cover rounded-md mb-2 sm:mb-3">
+                                <div class="flex items-center justify-center mb-2">
+                                    <h3 class="font-bold text-sm line-clamp-2">Join the Universe </h3>
+
+                                    <!-- <span
+                                                class="bg-orange py-1 px-2 badge text-dark-blue rounded-lg text-xs"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                    fill="currentColor" class="size-5">
+                                                    <path
+                                                        d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z" />
+                                                    <path
+                                                        d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z" />
+                                                </svg> -->
+                                    </span>
+                                </div>
+                                <div class="flex items-center justify-center">
+                                    <div>
+                                        <span class="text-xs flex gap-2 items-center">Sponsored</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </a>
+            </div>
+        </section>
+
+
+        {% endblock %}

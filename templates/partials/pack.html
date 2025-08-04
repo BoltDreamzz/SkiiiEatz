@@ -1,0 +1,13 @@
+<div id="pack-{{ pack.id }}" class="bg-white p-4 rounded shadow">
+    <div class="flex justify-between items-center mb-2">
+        <h2 class="font-semibold text-lg">🍽️ {{ pack.restaurant.name }}</h2>
+        <button hx-delete="{% url 'delete_pack' pack.id %}" 
+                hx-target="#pack-{{ pack.id }}" 
+                hx-swap="outerHTML"
+                class="text-red-500 text-sm">Delete Pack</button>
+    </div>
+
+    <div id="items-{{ pack.id }}">
+        {% include 'partials/pack_items.html' with pack=pack %}
+    </div>
+</div>

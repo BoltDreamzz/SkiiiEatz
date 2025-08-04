@@ -1,0 +1,21 @@
+<h2>Choose your avatar</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+<style>
+    input[type="radio"] {
+        display: none;
+    }
+    label img {
+        height: 100px;
+        border: 3px solid transparent;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    input[type="radio"]:checked + label img {
+        border-color: blue;
+    }
+</style>

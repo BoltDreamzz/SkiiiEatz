@@ -1,0 +1,5 @@
+{% if restaurant.is_open_now %}
+  <p class="text-green-600 font-semibold text-lg">Open Now</p>
+{% else %}
+  {% include "restaurant/_countdown.html" %}
+{% endif %}

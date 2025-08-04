@@ -1,0 +1,269 @@
+{%extends 'partials/base.html'%}
+{%block title%}Home{%endblock%}
+{%load static%}
+{%block content%}
+<style>
+    .delivery-riders {
+        background-image: url("{%static 'images/way.jpg'%}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        min-height: 26rem;
+        /* 256px ~ Tailwind h-64 */
+        position: relative;
+        z-index: 10;
+        margin-top: 1rem;
+        overflow: hidden;
+        bottom: 2.5rem;
+        /* equivalent to bottom-10 */
+    }
+
+    /* Optional: Tweak height for different screen sizes */
+    @media (min-width: 640px) {
+
+        /* Small screens and up (tablets) */
+        .delivery-riders {
+            min-height: 40rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+
+        /* Large screens and up (desktops) */
+        .delivery-riders {
+            min-height: 60rem;
+        }
+    }
+   
+        
+    }
+</style>
+<section class="relative min-h-screen flex-col flex items-center justify-center">
+    <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <h1 class="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-black text-black mb-6 animate-slide-up">
+            How far na <br>Have you <span class="text-orange">eat'n</span> ?
+        </h1>
+        <p class="text-lg sm:text-xl md:text-2xl text-black mb-8 animate-slide-up" style="animation-delay: 0.2s;">
+            Discover the most amazing restaurants, supermarkets and more in your city.
+        </p>
+
+        <!-- Location Form -->
+        <div class="flex justify-center items-center gap-4 animate-slide-up">
+            <button onclick="getUserLocation()"
+                class="bg-black btn max-w-50 flex items-center gap-3 text-orange h-12 px-5 py-3 rounded-2xl">
+                Explore Nearby
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-5 text-white">
+                    <path fill-rule="evenodd"
+                        d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </button>
+            <button onclick="window.location.href='/explore/'"
+                class="bg-white btn max-w-50 flex items-center gap-3 text-orange h-12 px-5 py-3 rounded-2xl">
+                Explore Demo
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-5 text-black">
+                    <path fill-rule="evenodd"
+                        d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </button>
+        </div>
+
+
+        <script>
+            function getUserLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+                } else {
+                    Toastify({
+                        text: "Geolocation not supported by your browser",
+                        backgroundColor: "red"
+                    }).showToast();
+                }
+
+                function successCallback(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    fetch(`/get-location-data/?lat=${lat}&lon=${lon}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Redirect to explore page
+                                window.location.href = `/explore/?city=${data.city_slug}`;
+                            } else {
+                                Toastify({
+                                    text: data.message,
+                                    backgroundColor: "orange"
+                                }).showToast();
+                            }
+                        })
+                        .catch(() => {
+                            Toastify({
+                                text: "Failed to connect to server",
+                                backgroundColor: "red"
+                            }).showToast();
+                        });
+                }
+
+                function errorCallback() {
+                    Toastify({
+                        text: "Permission denied or location unavailable",
+                        backgroundColor: "red"
+                    }).showToast();
+                }
+            }
+        </script>
+
+
+
+        <!-- <form action="{% url 'core:explore' %}" method="get"
+            class="p-5 flex items-center h-12 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 mr-3">
+                <path fill-rule="evenodd"
+                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                    clip-rule="evenodd" />
+            </svg>
+
+            <input type="text"  name="city" placeholder="e.g., lagos" class="w-full p-2 m-2" required>
+            <button type="submit" class="p-3 flex items-center justify-center w-12 h-12 bg-white rounded-2xl shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd"
+                        d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </button>
+        </form> -->
+
+        {% if city %}
+        <p class="mt-6 text-gray-700 text-sm">Showing results for: <strong>{{ city.name }}</strong></p>
+        {% endif %}
+
+        <div class="flex items-center justify-center overflow-hidden my-3">
+            <img src="{%static 'images/bgg.jpg'%}" class="w-full h-auto max-w-6xl object-cover" alt="">
+        </div>
+
+    </div>
+    <div class="delivery-riders relative z-15 w-full bottom-10 h-24 overflow-hidden">
+        <img src="{% static 'images/rider1.png' %}" class="w-32 absolute -top-10 mb-4 rider rider-1 m-4 h-32" alt="Rider">
+        <img src="{% static 'images/rider2.png' %}" class="w-32 absolute bottom-60 -mb-5 rider rider-2 h-32 m-4" alt="Rider">
+        <!-- <img src="{% static 'images/rider3.png' %}" class="w-32 absolute bottom-80 -mb-5 rider rider-2 h-32 m-4" alt="Rider"> -->
+        
+
+    </div>
+    <div class="relative bottom-20 w-full z-18">
+        <img src="{%static 'images/cle.png'%}" class="absolute offset-0 w-full bottom-20" alt="Cloud">
+        <div class="min-h-24 bg-white">
+            
+        </div>
+    </div>
+  
+</section>
+
+<!-- JS -->
+<script src="{% static 'js/gsap-animation.js' %}"></script>
+
+<!-- Tab Section -->
+
+
+<!-- Trust & Credibility Cards -->
+<section class="py-16 sm:py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">Trusted by Millions</h2>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Trust Card 1 -->
+            <div
+                class="bg-white border-4 border-black rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-center mb-6">
+                    <div class="text-4xl font-bold text-yellow-500 mb-2">1M+</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Happy Customers</h3>
+                    <p class="text-gray-600">Over one million satisfied customers trust us with their daily meals
+                        and special occasions.</p>
+                </div>
+                <img src="/placeholder.svg?height=200&width=300" alt="Happy Customers" class="w-full rounded-lg">
+            </div>
+
+            <!-- Trust Card 2 -->
+            <div
+                class="bg-white border-4 border-black rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-center mb-6">
+                    <div class="text-4xl font-bold text-yellow-500 mb-2">5000+</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Partner Restaurants</h3>
+                    <p class="text-gray-600">We work with thousands of carefully selected restaurants to bring you
+                        the best dining options.</p>
+                </div>
+                <img src="/placeholder.svg?height=200&width=300" alt="Partner Restaurants" class="w-full rounded-lg">
+            </div>
+
+            <!-- Trust Card 3 -->
+            <div
+                class="bg-white border-4 border-black rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 sm:col-span-2 lg:col-span-1">
+                <div class="text-center mb-6">
+                    <div class="text-4xl font-bold text-yellow-500 mb-2">24/7</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">Customer Support</h3>
+                    <p class="text-gray-600">Our dedicated support team is always ready to help you with any
+                        questions or concerns.</p>
+                </div>
+                <img src="?height=200&width=300" alt="Customer Support" class="w-full rounded-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Color Transition Cards Section -->
+<section class="py-16 sm:py-20 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">Experience the Difference</h2>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1 - Red -->
+            <div
+                class="transition-card bg-red-500 text-white p-8 rounded-2xl shadow-lg transform transition-all duration-500 hover:scale-105">
+                <div class="text-center">
+                    <div class="text-3xl mb-4">🍕</div>
+                    <h3 class="text-xl font-bold mb-3">Italian Cuisine</h3>
+                    <p class="text-red-100">Authentic pasta, pizza, and more from Italy's finest recipes.</p>
+                </div>
+            </div>
+
+            <!-- Card 2 - Orange -->
+            <div class="transition-card bg-orange-500 text-white p-8 rounded-2xl shadow-lg transform transition-all duration-500 hover:scale-105"
+                style="animation-delay: 0.1s;">
+                <div class="text-center">
+                    <div class="text-3xl mb-4">🍜</div>
+                    <h3 class="text-xl font-bold mb-3">Asian Delights</h3>
+                    <p class="text-orange-100">Fresh sushi, ramen, and traditional Asian flavors delivered hot.</p>
+                </div>
+            </div>
+
+            <!-- Card 3 - Yellow -->
+            <div class="transition-card bg-yellow-500 text-white p-8 rounded-2xl shadow-lg transform transition-all duration-500 hover:scale-105"
+                style="animation-delay: 0.2s;">
+                <div class="text-center">
+                    <div class="text-3xl mb-4">🌮</div>
+                    <h3 class="text-xl font-bold mb-3">Mexican Fiesta</h3>
+                    <p class="text-yellow-100">Spicy tacos, burritos, and authentic Mexican street food.</p>
+                </div>
+            </div>
+
+            <!-- Card 4 - Green -->
+            <div class="transition-card bg-green-500 text-white p-8 rounded-2xl shadow-lg transform transition-all duration-500 hover:scale-105"
+                style="animation-delay: 0.3s;">
+                <div class="text-center">
+                    <div class="text-3xl mb-4">🥗</div>
+                    <h3 class="text-xl font-bold mb-3">Healthy Options</h3>
+                    <p class="text-green-100">Fresh salads, smoothies, and nutritious meals for a healthy lifestyle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%endblock%}

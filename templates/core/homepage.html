@@ -1,0 +1,35 @@
+
+
+
+
+
+{% if city %}
+  <h2 class="text-xl mb-2">Browsing: {{ city.name }}</h2>
+
+  <h3 class="font-semibold mt-4">Restaurants:</h3>
+  {% if restaurants %}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for r in restaurants %}
+        <a href="{% url 'restaurant_detail' r.slug %}" class="block p-2 border rounded shadow">
+          <img src="{{ r.image.url }}" class="h-32 object-cover w-full rounded"/>
+          <h4 class="mt-2 font-medium">{{ r.name }}</h4>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No restaurants in this city.</p>
+  {% endif %}
+
+  <h3 class="font-semibold mt-4">Supermarkets:</h3>
+  {% if supermarkets %}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {% for s in supermarkets %}
+        <!-- Display supermarket cards here -->
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No supermarkets in this city.</p>
+  {% endif %}
+{% else %}
+  <p>Please enter a city to explore available services.</p>
+{% endif %}

@@ -1,0 +1,9 @@
+<!-- cart/partials/pack_items.html -->
+<div id="pack-items-{{ pack.id }}">
+  <h4>{{ pack.name }}</h4>
+  <ul>
+    {% for item in pack.cartitem_set.all %}
+      <li>{{ item.content_object.name }} - {{ item.quantity }}</li>
+    {% endfor %}
+  </ul>
+</div>

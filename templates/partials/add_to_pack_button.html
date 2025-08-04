@@ -1,0 +1,11 @@
+<!-- cart/partials/add_to_pack_button.html -->
+{% for pack in packs %}
+  <button 
+    hx-post="{% url 'cart:add_to_pack' pack.id app_label model_name object.id %}" 
+    hx-target="#pack-items-{{ pack.id }}" 
+    hx-swap="outerHTML"
+    class="btn btn-sm bg-green-500 text-white rounded"
+  >
+    Add to {{ pack.name }}
+  </button>
+{% endfor %}
