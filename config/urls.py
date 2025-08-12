@@ -23,5 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('restaurants/', include('restaurants.urls')),
+    path('auth/', include('accounts.urls')),
+    # path('supermarkets/', include('supermarkets.urls')),
+    path('skiii_bot/', include('skiii_bot.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

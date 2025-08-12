@@ -8,44 +8,35 @@ from supermarkets.models import Supermarket  # Add when model is ready
 from django.shortcuts import redirect
 
 def homepage(request):
-    # query = request.GET.get("city")
-    # if query:
-    #     return redirect(f'/explore/?city={query.lower()}')
+    
+    
 
     return render(request, 'core/index.html')
 
-from django.shortcuts import render, get_object_or_404
-from .models import City
+# from django.shortcuts import render, get_object_or_404
+from .models import City, Address
 
 
-## ADD MORE CITIES BY ##
-# python manage.py shell
-# >>> from core.models import City
-# >>> City.objects.create(name="Lekki")
-# >>> City.objects.create(name="Enugu")
 
-# ###
+def location_save(request):
+    if request.method == "POST":
+        address = request.POST.get("address")
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        
+        # Save to session
+        request.session['saved_location'] = {
+            "address": address,
+            "city": city,
+            "state": state,
+        }
 
-# def explore(request):
-#     query = request.GET.get("city")
-#     city = None
-#     restaurants = []
-#     supermarkets = []
+        # Optionally save to DB if user is authenticated
+        if request.user.is_authenticated:
+            Address.objects.create(user=request.user, address=address, city=city, state=state)
 
-#     if query:
-#         try:
-#             city = City.objects.get(slug=query.lower())
-#             restaurants = Restaurant.objects.filter(city=city)
-#             supermarkets = Supermarket.objects.filter(city=city)
-#         except City.DoesNotExist:
-#             city = None
-
-#     context = {
-#         'city': city,
-#         'restaurants': restaurants,
-#         'supermarkets': supermarkets,
-#     }
-#     return render(request, 'core/explore.html', context)
+        return redirect("/")  # replace with your URL name
+    return redirect("core:explore")
 
 def explore(request):
     # city_slug = request.GET.get("city", "").lower()
@@ -118,13 +109,32 @@ def get_location_data(request):
     except City.DoesNotExist:
         return JsonResponse({"success": False, "message": f"We are not yet in '{area_name.title()}'"})
 
+# def restaurant_detail(request, slug):
+#     restaurant = get_object_or_404(Restaurant, slug=slug)
+#     # meals = MenuItem.objects.filter(restaurant=restaurant, available=True)
+#     # Display all the meals according to the MenuItemCategory using prefetch_related
+#     # meals = MenuItem.objects.filter(restaurant=restaurant, available=True).prefetch_related('item_category')
+#     categories = MenuItemCategory.objects.filter(restaurant=restaurant).prefetch_related('menu_items')
+#     most_popular = MenuItem.objects.filter(restaurant=restaurant, available=True).order_by('-date_posted')[:5]
+
+#     context = {
+#         'restaurant': restaurant,
+#         'categories': categories,
+#         'most_popular': most_popular,
+#     }
+#     return render(request, 'core/restaurant_detail.html', context)
+
+from django.db.models import Prefetch
+
+
 def restaurant_detail(request, slug):
     restaurant = get_object_or_404(Restaurant, slug=slug)
-    # meals = MenuItem.objects.filter(restaurant=restaurant, available=True)
-    # Display all the meals according to the MenuItemCategory using prefetch_related
-    # meals = MenuItem.objects.filter(restaurant=restaurant, available=True).prefetch_related('item_category')
-    categories = MenuItemCategory.objects.filter(restaurant=restaurant).prefetch_related('menu_items')
-    most_popular = MenuItem.objects.filter(restaurant=restaurant, available=True).order_by('-date_posted')[:5]
+    
+    categories = MenuItemCategory.objects.filter(restaurant=restaurant).prefetch_related(
+        Prefetch('menu_items', queryset=MenuItem.objects.filter(available=True))
+    )
+
+    most_popular = MenuItem.objects.filter(restaurant=restaurant, available=True).order_by('name')[:5]
 
     context = {
         'restaurant': restaurant,
@@ -132,7 +142,6 @@ def restaurant_detail(request, slug):
         'most_popular': most_popular,
     }
     return render(request, 'core/restaurant_detail.html', context)
-
 
 def general_search(request):
     query = request.GET.get("q", "").strip()
@@ -272,3 +281,19 @@ def add_to_pack(request, pack_id, app_label, model_name, object_id):
         item.save()
 
     return render(request, "partials/pack_items.html", {"pack": pack})
+
+
+
+def checkout(request):
+    # Try getting from session first
+    location = request.session.get('saved_location')
+
+    if location:
+        default_address = location
+    elif request.user.is_authenticated:
+        # Get latest address from DB
+        default_address = request.user.addresses.last()
+    else:
+        default_address = None
+
+    return render(request, "core/checkout.html", {"default_address": default_address})

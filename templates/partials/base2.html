@@ -16,6 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -149,8 +151,8 @@
 <!-- Loading Screen -->
 <div id="preloader" class="fixed inset-0 bg-black z-150 flex gap-2 items-center justify-center">
     <div class="flex animate-bounce">
-            <img src="{% static 'images/seei.png' %}" alt="Loading..." class="w-24 h-24" />
-            <img src="{% static 'images/seei.png' %}" alt="Loading..." class="h-24 w-auto" />
+        <img src="{% static 'images/seei.png' %}" alt="Loading..." class="w-24 h-24" />
+        <img src="{% static 'images/seei.png' %}" alt="Loading..." class="h-24 w-auto" />
 
     </div>
 </div>
@@ -188,7 +190,8 @@
                             class="w-12 h-12"></h1>
                     <div class="flex items-center space-x-2 text-xs text-gray-600">
                         <i class="fas fa-map-marker-alt text-primary"></i>
-                        <span class="text-sm locationDiv">Downtown, NYC</span>
+                        <p id="locationDiv" class="text-sm">Getting Location...</p>
+                        <!-- <span class="text-sm locationDiv"></span> -->
                         <i onclick="modal1.showModal()" class="fas fa-chevron-down text-xs"><svg
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="size-5">
@@ -199,21 +202,82 @@
                         </i>
                     </div>
                 </div>
+                <!-- <script src="{%static 'js/location.js'%}"></script> -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const locationDiv = document.getElementById("locationDiv");
+                        const inputAddress = document.getElementById("inputAddress");
+                        const inputCity = document.getElementById("inputCity");
+                        const inputState = document.getElementById("inputState");
+
+                        locationDiv.textContent = "Getting Location...";
+
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(
+                                async (position) => {
+                                    const lat = position.coords.latitude;
+                                    const lon = position.coords.longitude;
+
+                                    try {
+                                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`, {
+                                            headers: {
+                                                "Accept-Language": "en",  // Ensure English output
+                                            }
+                                        });
+
+                                        const data = await response.json();
+
+                                        const address = data.display_name || '';
+                                        const city = data.address.city || data.address.town || data.address.village || data.address.suburb || '';
+                                        const state = data.address.state || '';
+
+                                        // Update input fields
+                                        inputAddress.value = address;
+                                        inputCity.value = city;
+                                        inputState.value = state;
+
+                                        // Show formatted location
+                                        if (city && state) {
+                                            locationDiv.textContent = `${city}, ${state}`;
+                                        } else if (state) {
+                                            locationDiv.textContent = state;
+                                        } else {
+                                            locationDiv.textContent = "Location found but incomplete.";
+                                        }
+                                    } catch (error) {
+                                        console.error("Reverse geocoding error:", error);
+                                        locationDiv.textContent = "Unable to get address.";
+                                    }
+                                },
+                                (error) => {
+                                    console.error("Geolocation error:", error);
+                                    locationDiv.textContent = "Location access denied.";
+                                }
+                            );
+                        } else {
+                            locationDiv.textContent = "Geolocation not supported.";
+                        }
+                    });
+                </script>
+
                 <div class="flex items-center space-x-4">
                     <div class="relative hidden md:block">
                         <input type="text" placeholder="Search restaurants, supermarkets..."
                             class="w-80 pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
-                    <button class="md:hidden">
-                        <i class="fas fa-search text-gray-600"><svg xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                                <path
-                                    d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
-                            </svg>
 
-                        </i>
-                    </button>
+                    <a href="{%url 'accounts:profile'%}" class="text-decoration-none">
+                        <button class="md:hidden">
+                            <i class="fas fa-search text-gray-600"><svg xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                    <path
+                                        d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                                </svg>
+
+                            </i>
+                        </button>
+                    </a>
                     <button onclick="modal2.showModal()" class="relative">
                         <i class="fas fa-shopping-cart"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor" class="size-5">
@@ -232,10 +296,31 @@
     <dialog id="modal1" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
             <h3 class="font-bold text-lg">Delivery Address</h3>
-            <p class="py-4">This is the content of Modal 1.</p>
+
+            <div class="p-2">
+                <div class="flex items-center justify-center">
+                    <img src="{%static 'images/map.png'%}" class="w-full h-full" alt="">
+                </div>
+                <div class="p-3 my-3 rounded-3xl flex items-center bg-blue-50 text-blue-500">
+                    <p class="p-2 text-xs">Our GPS will map your location and display it for delivery.</p>
+                </div>
+                <!-- <p class="py-4">Please confirm your delivery address before proceeding.</p> -->
+                <form method="post" action="{% url 'core:location_save' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="address" id="inputAddress">
+                    <input type="hidden" name="city" id="inputCity">
+                    <input type="hidden" name="state" id="inputState">
+                    <p id="locationDiv">Getting Location...</p>
+                    <div class="flex items-center justify-center">
+                        <button type="submit" class="bg-primary min-w-50">Save My Location</button>
+
+                    </div>
+                </form>
+            </div>
+
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-primary">Close</button>
+                    <button class="btn p-3 rounded-2xl min-w-24">Close</button>
                 </form>
             </div>
         </div>
@@ -274,7 +359,8 @@
             duration: 5000,
             gravity: "top",
             position: "center",
-            backgroundColor: "{% if message.tags == 'error' %}#f56565{% elif message.tags == 'success' %}#48bb78{% else %}#4299e1{% endif %}"
+            backgroundColor: "{% if message.tags == 'error' %}#f56565{% elif message.tags == 'success' %}#48bb78{% else %}#4299e1{% endif %}",
+            className: "rounded-2xl px-4 py-2 text-primary",
         }).showToast();
         {% endfor %}
     </script>
@@ -296,6 +382,119 @@
             </ul>
         </div>
     </div>
+    <!-- Ad Popup Container -->
+    <div id="adPopup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-black rounded-lg shadow-lg max-w-md w-full p-6 relative">
+
+            <!-- Close Button -->
+            <button id="closeAd"
+                class="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl m-1 p-2 font-bold">&times;</button>
+
+            <!-- Ad Content -->
+            <img id="adImage" src="" alt="Ad" class="w-full rounded-2xl mb-4 h-64 object-cover">
+            <h1 id="adTitle" class="text-2xl font-bold text-primary mb-2"></h1>
+            <p id="adDescription" class="text-orange-300 mb-4"></p>
+            <a id="adLink" href="#" target="_blank"
+                class="inline-block px-4 py-2 bg-peimary text-black rounded-2xl hover:bg-orange-700">
+                Learn More
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Sample ads data
+        const ads = [
+            {
+                id: 1,
+                image: "https://i.pinimg.com/1200x/b5/f4/8e/b5f48ea8142b932cd58ad9ff8833fc16.jpg?height=400&width=1200",
+                title: "Special Offer - Ad 1",
+                description: "Get 50% off today only!",
+                link: "https://example.com/ad1"
+            },
+            {
+                id: 2,
+                image: "https://i.pinimg.com/736x/94/cf/ef/94cfef9590fba08c44ced383e8f400a5.jpg?height=400&width=1200",
+                title: "New Product Launch",
+                description: "Check out our exciting new range.",
+                link: "https://example.com/ad2"
+            },
+            {
+                id: 3,
+                image: "https://i.pinimg.com/1200x/6f/7e/a3/6f7ea396c5242ccbdc2ed06c18de13d6.jpg?height=400&width=1200",
+                title: "Limited Time Deal",
+                description: "Hurry, offer ends soon!",
+                link: "https://example.com/ad3"
+            },
+            {
+                id: 4,
+                image: "https://i.pinimg.com/736x/a8/22/b9/a822b9a486527c62596711014263c142.jpg?height=400&width=1200",
+                title: "Exclusive Discount",
+                description: "Use code SAVE20 for 20% off.",
+                link: "https://example.com/ad4"
+            },
+            {
+                id: 5,
+                image: "https://i.pinimg.com/736x/a8/22/b9/a822b9a486527c62596711014263c142.jpg?height=400&width=1200",
+                title: "Flash Sale",
+                description: "Up to 70% off on selected items!",
+                link: "https://example.com/ad5"
+            }
+        ];
+
+        const popup = document.getElementById("adPopup");
+        const closeBtn = document.getElementById("closeAd");
+        const adImage = document.getElementById("adImage");
+        const adTitle = document.getElementById("adTitle");
+        const adDescription = document.getElementById("adDescription");
+        const adLink = document.getElementById("adLink");
+
+        const STORAGE_KEY = "shownAds";
+        const COOLDOWN = 30 * 60 * 1000; // 30 minutes in ms
+
+        function getShownAds() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        }
+
+        function saveShownAd(adId) {
+            const shownAds = getShownAds();
+            shownAds.push({ id: adId, time: Date.now() });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(shownAds));
+        }
+
+        function filterAvailableAds() {
+            const shownAds = getShownAds();
+            const now = Date.now();
+            return ads.filter(ad => {
+                const record = shownAds.find(item => item.id === ad.id);
+                if (!record) return true; // Never shown before
+                return now - record.time > COOLDOWN; // Cooldown passed
+            });
+        }
+
+        function showRandomAd() {
+            const availableAds = filterAvailableAds();
+            if (availableAds.length === 0) {
+                console.log("No ads available right now.");
+                return;
+            }
+            const randomAd = availableAds[Math.floor(Math.random() * availableAds.length)];
+            adImage.src = randomAd.image;
+            adTitle.textContent = randomAd.title;
+            adDescription.textContent = randomAd.description;
+            adLink.href = randomAd.link;
+            popup.classList.remove("hidden");
+            saveShownAd(randomAd.id);
+        }
+
+        closeBtn.addEventListener("click", () => {
+            popup.classList.add("hidden");
+        });
+
+        // Show ad after 7 seconds
+        window.addEventListener("load", () => {
+            setTimeout(showRandomAd, 7000);
+        });
+    </script>
     <div id="main-content" class="opacity-0 transition-opacity duration-500">
         {%block content%}{%endblock%}
     </div>

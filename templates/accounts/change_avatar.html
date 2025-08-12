@@ -1,9 +1,11 @@
-<h2>Choose your avatar</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load rating_tags %}
+{% load humanize %}
+
+{% block title %}Create Avatar{% endblock %}
+
+{% block content %}
 
 <style>
     input[type="radio"] {
@@ -19,3 +21,110 @@
         border-color: blue;
     }
 </style>
+
+<div class="flex z-55 gap-3 items-center mx-3 my-4">
+    <button onclick="history.back()"
+        class="p-2 flex items-center justify-center min-w-12 h-12 bg-white shadow-md rounded-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+            <path fill-rule="evenodd"
+                d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                clip-rule="evenodd" />
+        </svg>
+    </button>
+    Go Back
+</div>
+
+<div class="min-h-64 flex items-center justify-center mb-5">
+    <div class="bg-white rounded-2xl shadow-lg p-6 mx-3 w-full max-w-3xl">
+        <h1 class="text-2xl font-bold text-center mb-6">Select Your Avatar</h1>
+
+        <!-- Current Avatar -->
+        <div id="current-avatar" class="flex justify-center mb-6">
+            <img id="current-avatar-img" src="{{ profile.avatar.image.url }}" alt="Current Avatar"
+                 class="w-24 h-24 rounded-full border-4 border-orange-500 shadow-lg">
+        </div>
+
+        <!-- Avatar Grid -->
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mb-8">
+            {% for avatar in avatars %}
+            <div class="group cursor-pointer">
+                <img src="{{ avatar.image.url }}" 
+                     alt="Avatar {{ forloop.counter }}"
+                     class="avatar-item w-20 h-20 rounded-full border-2 {% if profile.avatar.id == avatar.id %}border-orange-500{% else %}border-transparent{% endif %} transition"
+                     data-avatar-id="{{ avatar.id }}"
+                     data-avatar-url="{{ avatar.image.url }}">
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Save Form -->
+        <div class="m-3 p-2">
+            <form method="POST" id="avatar-form">
+                {% csrf_token %}
+                <input type="hidden" name="avatar" id="selected-avatar" value="{{ profile.avatar.id|default:'' }}">
+                <button type="submit" id="save-btn" 
+                        class="px-6 py-2 bg-orange-400 text-white rounded-2xl shadow flex items-center justify-center gap-2 cursor-not-allowed" 
+                        disabled>
+                    <span id="save-text">Save Avatar</span>
+                    <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const currentAvatarId = "{{ profile.avatar.id|default:'' }}";
+    const saveBtn = document.getElementById('save-btn');
+    const selectedAvatarInput = document.getElementById('selected-avatar');
+    const currentAvatarImg = document.getElementById('current-avatar-img');
+    let firstClick = true;
+
+    document.querySelectorAll('.avatar-item').forEach(img => {
+        img.addEventListener('click', function () {
+            // Remove highlight from all
+            document.querySelectorAll('.avatar-item').forEach(el => {
+                el.classList.remove('border-orange-500');
+                el.classList.add('border-transparent');
+            });
+
+            // Highlight clicked
+            this.classList.add('border-orange-500');
+
+            // Update hidden input
+            selectedAvatarInput.value = this.dataset.avatarId;
+
+            // Update preview instantly
+            currentAvatarImg.src = this.dataset.avatarUrl;
+
+            // Enable button if different from current
+            if (this.dataset.avatarId !== currentAvatarId) {
+                saveBtn.removeAttribute('disabled');
+                saveBtn.classList.remove('bg-orange-400', 'cursor-not-allowed');
+                saveBtn.classList.add('bg-orange-600', 'hover:bg-orange-700');
+            } else {
+                saveBtn.setAttribute('disabled', 'true');
+                saveBtn.classList.add('bg-orange-400', 'cursor-not-allowed');
+                saveBtn.classList.remove('bg-orange-600', 'hover:bg-orange-700');
+            }
+
+            // Scroll to save button on first click
+            if (firstClick) {
+                saveBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstClick = false;
+            }
+        });
+    });
+
+    // Show spinner on submit
+    document.getElementById('avatar-form').addEventListener('submit', function () {
+        document.getElementById('save-text').classList.add('hidden');
+        document.getElementById('spinner').classList.remove('hidden');
+        saveBtn.setAttribute('disabled', 'true');
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{%extends 'partials/base2.html'%}
+{%block title%}Create profile{%endblock%}
+{%load static%}
+{% load rating_tags %}
+
+{%block content%}
+
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Explore Avatars</h1>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for avatar in avatars %}
+            <div class="border border-gray-300 rounded-lg p-2 text-center">
+                <img src="{{ avatar.image.url }}" alt="{{ avatar.name }}" class="w-full h-32 object-cover mb-2">
+                <p class="text-sm">{{ avatar.name }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+    <h2>Create Your Profile</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label>Select Avatar:</label><br>
+        {% for avatar in avatars %}
+            <input type="radio" name="avatar" value="{{ avatar.id }}">
+            <img src="{{ avatar.image.url }}" width="50" height="50" alt="{{ avatar.name }}">
+        {% endfor %}
+        <br><button type="submit">Save</button>
+    </form>
+    <div class="mt-4">
+        <a href="{% url 'accounts:profile' %}" class="text-blue-500 hover:underline">Go to Profile</a>
+    </div>
+</div>
+
+{%endblock%}
+

@@ -26,6 +26,16 @@ from supermarkets.models import Supermarket
 #     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    state = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.address}, {self.city}, {self.state}"
+
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -57,12 +67,12 @@ class CartItem(models.Model):
     """
     Each item belongs to a specific pack in the cart.
     """
-    pack = models.ForeignKey(CartPack, on_delete=models.CASCADE, related_name='items')
+    pack = models.ForeignKey(CartPack, on_delete=models.CASCADE, related_name='items', null=True, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     quantity = models.PositiveIntegerField(default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True,  null=True)
     
     def __str__(self):
         return f"{self.quantity} of {self.content_object} in Pack {self.pack.name or 'Unnamed'}"

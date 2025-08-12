@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'core',
     'cloudinary',
     'cloudinary_storage',
+    'skiii_bot',
+    'django.contrib.postgres',  # For ArrayField
 
 ]
 
@@ -167,3 +169,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_REDIRECT_URL = 'core:explore'  # Redirect to Explore after login
+LOGOUT_REDIRECT_URL = '/'  # Redirect to login after logout

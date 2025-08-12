@@ -1,0 +1,124 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Select Avatar{% endblock %}
+
+{% block content %}
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-3xl">
+        <h1 class="text-2xl font-bold text-center mb-6">Select Your Avatar</h1>
+
+        <!-- Form -->
+        <form method="post" action="{% url 'accounts:change_avatar' %}" id="avatar-form">
+            {% csrf_token %}
+
+            <!-- Current Avatar -->
+            <div id="current-avatar" class="flex flex-col items-center mb-8">
+                <p class="text-gray-600 mb-2">Current Avatar</p>
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.image.url }}" 
+                         alt="Current Avatar" 
+                         class="w-28 h-28 rounded-full border-4 border-orange-500 shadow-md"
+                         id="current-avatar-img">
+                {% else %}
+                    <p class="text-gray-500">No avatar selected</p>
+                {% endif %}
+            </div>
+
+            <!-- Hidden input -->
+            <input type="hidden" name="avatar" id="selected-avatar" value="{{ profile.avatar.id|default:'' }}">
+
+            <!-- Avatar Grid -->
+            <div id="avatar-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mb-8">
+                {% for avatar in avatars %}
+                <div class="group cursor-pointer">
+                    <img src="{{ avatar.image.url }}" 
+                         alt="Avatar {{ forloop.counter }}" 
+                         class="avatar-item w-20 h-20 rounded-full border-2 {% if profile.avatar.id == avatar.id %}border-orange-500{% else %}border-transparent{% endif %} transition"
+                         data-avatar-id="{{ avatar.id }}"
+                         data-avatar-url="{{ avatar.image.url }}">
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center text-gray-500">No avatars available</div>
+                {% endfor %}
+            </div>
+
+            <!-- Save Button -->
+            <div class="text-center">
+                <button type="submit" id="save-btn" 
+                        class="px-6 py-2 bg-orange-400 text-white rounded-2xl shadow flex items-center justify-center gap-2 mx-auto cursor-not-allowed"
+                        disabled>
+                    <span id="save-text">Save Avatar</span>
+                    <svg id="spinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const currentAvatarId = "{{ profile.avatar.id|default:'' }}";
+        const saveBtn = document.getElementById('save-btn');
+        const selectedAvatarInput = document.getElementById('selected-avatar');
+        const currentAvatarImg = document.getElementById('current-avatar-img');
+        let firstClick = true;
+
+        document.querySelectorAll('.avatar-item').forEach(img => {
+            img.addEventListener('click', function () {
+                // Remove highlight from all
+                document.querySelectorAll('.avatar-item').forEach(el => {
+                    el.classList.remove('border-orange-500');
+                    el.classList.add('border-transparent');
+                });
+
+                // Highlight clicked
+                this.classList.add('border-orange-500');
+                this.classList.remove('border-transparent');
+
+                // Update hidden input
+                selectedAvatarInput.value = this.dataset.avatarId;
+
+                // Update preview instantly
+                if (currentAvatarImg) {
+                    currentAvatarImg.src = this.dataset.avatarUrl;
+                } else {
+                    document.getElementById('current-avatar').innerHTML = `
+                        <p class="text-gray-600 mb-2">Current Avatar</p>
+                        <img id="current-avatar-img" src="${this.dataset.avatarUrl}" 
+                             alt="Current Avatar" 
+                             class="w-28 h-28 rounded-full border-4 border-orange-500 shadow-md">
+                    `;
+                }
+
+                // Enable/disable save button
+                if (this.dataset.avatarId !== currentAvatarId) {
+                    saveBtn.removeAttribute('disabled');
+                    saveBtn.classList.remove('bg-orange-400', 'cursor-not-allowed');
+                    saveBtn.classList.add('bg-orange-600', 'hover:bg-orange-700');
+                } else {
+                    saveBtn.setAttribute('disabled', 'true');
+                    saveBtn.classList.add('bg-orange-400', 'cursor-not-allowed');
+                    saveBtn.classList.remove('bg-orange-600', 'hover:bg-orange-700');
+                }
+
+                // Scroll to save button on first click
+                if (firstClick) {
+                    saveBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstClick = false;
+                }
+            });
+        });
+
+        // Spinner on form submit
+        document.getElementById('avatar-form').addEventListener('submit', function () {
+            document.getElementById('save-text').classList.add('hidden');
+            document.getElementById('spinner').classList.remove('hidden');
+            saveBtn.setAttribute('disabled', 'true');
+        });
+    </script>
+
+</body>
+{% endblock %}

@@ -12,3 +12,19 @@ class AvatarSelectionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['avatar'].queryset = Avatar.objects.all()
+
+
+# from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from .models import User
+
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['email', 'full_name', 'password']
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(label='Email')

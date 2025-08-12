@@ -1,0 +1,233 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load rating_tags %}
+{% load humanize %}
+
+{% block title %}Profile{% endblock %}
+
+
+{% block content %}
+
+<style>
+    html {
+        background: #000;
+    }
+</style>
+
+
+
+
+<section class="bgtt-orange m-4 rounded-2xl">
+    {%if user.is_authenticated%}
+    <div class="max-w-7xl min-h-42 mx-auto p-3">
+        <div class="flex p-2 flex-col gap-3 space-y-4 mb-2">
+            <div class="flex items-center justify-center">
+                <img src="{{ profile.avatar.image.url }}" alt="{{ profile.user.username }}'s Avatar"
+                    class="w-24 h-24 absolute flex items-center justify-center rounded-full ring ring-4 ring-orange-500 object-cover">
+                <span
+                    class="relative -top-10 -mt-3 left-10 bg-orange border text-white border-2 border-black p-1 rounded-lg"><a
+                        href="{%url 'accounts:change_avatar'%}" class="flex items-center text-sm font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            class="size-5 text-black">
+                            <path
+                                d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                            <path
+                                d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                        </svg>
+                    </a>
+                </span>
+            </div>
+
+            
+            <div class="flex items-start space-x-4">
+
+                <div class="flex flex-col">
+                    <h1 class="text-2xl flex items-center gap-2 font-bold text-orange">{{ profile.user.username|default:'Skiii Dawg' }} <svg
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </h1>
+                    <p class="text-gray-400 ml-3">{{ profile.user.email }}</p>
+                    <span class="text-sm text-gray-600 ml-3">Joined on {{profile.created_at.date}}.</span>
+
+                    <!-- <p class="text-gray-200">{{ user.first_name }} {{ user.last_name }}</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {%else%}
+    <div class="max-w-7xl mx-auto p-3">
+        <div class="flex items-center space-x-4">
+            <img src="https://i.pinimg.com/736x/59/bf/ab/59bfab34a9800cf9ecd37b8f53fe27be.jpg" alt="GuestUser's Avatar"
+                class="w-24 h-24 rounded-full ring ring-4 ring-orange-500 object-cover">
+            <div>
+                <h1 class="text-2xl font-bold text-white">Guest User</h1>
+                <p class="text-gray-200">Sign in to continue..</p>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
+</section>
+
+<!-- Quick Actions -->
+<section class="bgtt-orange mx-4 rounded-2xl">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <div class="w-12 h-12 bg-primary bg-opacity-10 rounded-2xl flex items-center justify-center mb-2">
+                    <i class="fas fa-receipt text-white text-lg"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M2 3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5v11.75A2.75 2.75 0 0 0 16.75 18h-12A2.75 2.75 0 0 1 2 15.25V3.5Zm3.75 7a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5Zm0 3a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5ZM5 5.75A.75.75 0 0 1 5.75 5h4.5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-.75.75h-4.5A.75.75 0 0 1 5 8.25v-2.5Z"
+                                clip-rule="evenodd" />
+                            <path d="M16.5 6.5h-1v8.75a1.25 1.25 0 1 0 2.5 0V8a1.5 1.5 0 0 0-1.5-1.5Z" />
+                        </svg>
+                    </i>
+                </div>
+                <span class="text-sm font-medium text-orange">Recent Orders</span>
+            </button>
+
+            <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mb-2">
+                    <i class="fas fa-heart text-red-500 text-lg"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path
+                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z" />
+                        </svg>
+                    </i>
+                </div>
+                <span class="text-sm font-medium text-orange">Favorites</span>
+            </button>
+
+            <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-2">
+                    <i class="fas fa-map-marker-alt text-blue-500 text-lg"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M8.157 2.176a1.5 1.5 0 0 0-1.147 0l-4.084 1.69A1.5 1.5 0 0 0 2 5.25v10.877a1.5 1.5 0 0 0 2.074 1.386l3.51-1.452 4.26 1.762a1.5 1.5 0 0 0 1.146 0l4.083-1.69A1.5 1.5 0 0 0 18 14.75V3.872a1.5 1.5 0 0 0-2.073-1.386l-3.51 1.452-4.26-1.762ZM7.58 5a.75.75 0 0 1 .75.75v6.5a.75.75 0 0 1-1.5 0v-6.5A.75.75 0 0 1 7.58 5Zm5.59 2.75a.75.75 0 0 0-1.5 0v6.5a.75.75 0 0 0 1.5 0v-6.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </i>
+                </div>
+                <span class="text-sm font-medium text-orange">Addresses</span>
+            </button>
+
+            <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors">
+                <div class="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center mb-2">
+                    <i class="fas fa-credit-card text-green-500 text-lg"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M2.5 4A1.5 1.5 0 0 0 1 5.5V6h18v-.5A1.5 1.5 0 0 0 17.5 4h-15ZM19 8.5H1v6A1.5 1.5 0 0 0 2.5 16h15a1.5 1.5 0 0 0 1.5-1.5v-6ZM3 13.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75Zm4.75-.75a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </i>
+                </div>
+                <span class="text-sm font-medium text-orange">Payment</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="py-6" id="main-content">
+    <div class="max-w-7xl mx-auto px-4 space-y-6">
+
+        <!-- Recent Orders -->
+        <section class="bgtt-orange rounded-2xl shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center text-white justify-between">
+                    <h3 class="text-lg font-semibold flex items-center">
+                        <i class="fas fa-clock text-orange mr-2"><svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </i>
+                        Recent Orders
+                    </h3>
+                    <button class="text-orange text-sm font-medium">
+                        View All
+                    </button>
+                </div>
+            </div>
+            <div class="divide-y">
+                <!-- Order 1 -->
+                <div class="p-4 hover:bg-gray-50 cursor-pointer" hx-get="/order/12345" hx-target="#order-modal"
+                    hx-trigger="click">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://i.pinimg.com/736x/bb/67/70/bb6770af9f073d4a46eaaca620a146e8.jpg?height=48&width=48" alt="Tony's Pizza"
+                                class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-medium text-orange">Tony's Pizza Palace</h4>
+                                <p class="text-sm text-gray-300">Margherita Pizza, Garlic Bread</p>
+                                <p class="text-xs text-gray-500">Dec 15, 2024 • 7:30 PM</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-orange">$25.98</div>
+                            <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-lg">Delivered</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Order 3 -->
+                <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://i.pinimg.com/736x/bb/67/70/bb6770af9f073d4a46eaaca620a146e8.jpg?height=48&width=48" alt="Sushi Express"
+                                class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-medium text-orange">Sushi Express</h4>
+                                <p class="text-sm text-gray-300">California Roll, Miso Soup</p>
+                                <p class="text-xs text-gray-500">Dec 10, 2024 • 6:45 PM</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-semibold text-orange">$12,022</div>
+                            <div class="text-xs text-green-600 bg-green-100 px-2 py-1 rounded-lg">Delivered</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+        <!-- Logout Button -->
+        <div class="pt-4">
+            <button
+                class="w-full bg-primary py-3 px-4 rounded-2xl font-medium hover:bg-red-100 transition-colors flex items-center justify-center"
+                >
+                <i class="fas fa-sign-out-alt mr-2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M17 4.25A2.25 2.25 0 0 0 14.75 2h-5.5A2.25 2.25 0 0 0 7 4.25v2a.75.75 0 0 0 1.5 0v-2a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 .75.75v11.5a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1-.75-.75v-2a.75.75 0 0 0-1.5 0v2A2.25 2.25 0 0 0 9.25 18h5.5A2.25 2.25 0 0 0 17 15.75V4.25Z"
+                            clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M14 10a.75.75 0 0 0-.75-.75H3.704l1.048-.943a.75.75 0 1 0-1.004-1.114l-2.5 2.25a.75.75 0 0 0 0 1.114l2.5 2.25a.75.75 0 1 0 1.004-1.114l-1.048-.943h9.546A.75.75 0 0 0 14 10Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </i>
+                Logout
+            </button>
+        </div>
+    </div>
+</main>
+
+
+<!-- Bottom Padding for Mobile Navigation -->
+<div class="h-16 md:hidden"></div>
+
+
+
+
+    {% endblock %}

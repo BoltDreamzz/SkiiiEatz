@@ -14,10 +14,10 @@ from django.utils.text import slugify
 
 # Choices dictionary for restaurant categories eg $$, $$$, etc.
 CATEGORIES_CHOICES = [
-    ('$', 'Budget'),
-    ('$$', 'Mid-range'),
-    ('$$$', 'Premium'),
-    ('$$$$', 'Luxury'),
+    ('$ Affordable', 'Budget'),
+    ('$$ Pricy', 'Mid-range'),
+    ('$$$ Quite Pricy ', 'Premium'),
+    ('$$$$ Expensive', 'Luxury'),
 ]
 
 class Restaurant(models.Model):
@@ -40,7 +40,7 @@ class Restaurant(models.Model):
     # Add tags but not comma separated
     tags = models.CharField(max_length=255, blank=True, null=True)  # Comma-separated tags
     # Add categories choice field eg $$ $$$ etc
-    budget_category = models.CharField(max_length=10, choices=CATEGORIES_CHOICES, default='$') 
+    budget_category = models.CharField(max_length=50, choices=CATEGORIES_CHOICES, default='$ Affordable') 
     # Open and close 
     open_time = models.TimeField(default=time(8, 0))   # default 8:00 AM
     close_time = models.TimeField(default=time(22, 0)) # default 10:00 PM   

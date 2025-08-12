@@ -136,165 +136,135 @@
     <section class="py-6 bg-white rounded-2xl mb-3">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold">Sponsored</h2>
+                <h2 class="text-lg font-semibold">Top Restaurants</h2>
                 <button class="text-primary text-sm font-medium">See All</button>
             </div>
             <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
                 {% for restaurant in restaurants %}
-                <div
-                    class="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
+                <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
+                    <div
+                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
                     <div class="relative">
-                        <img src="https://i.pinimg.com/1200x/0b/e4/7a/0be47ad5d2427db37badb02293b14fde.jpg?height=120&width=256"
-                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-t-lg">
+                        <img src="{{restaurant.image.url}}?height=120&width=256"
+                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
                         <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
-                            <img src="{%static 'images/prom.png'%}" alt="" class="w-4 h-4">
+                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
                         </div>
                         <div class="absolute top-2 right-2 bg-white rounded-full p-1">
                             <i class="fas fa-heart text-gray-400 text-sm"></i>
                         </div>
                     </div>
                     <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">Tony's Pizza Palace</h3>
+                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
                         <div class="flex items-center mt-1">
                             <div class="flex text-yellow-400 text-xs">
                                 {{ restaurant.rating|inline_star_rating|safe }}
                             </div>
                             <span class="text-xs text-gray-600 ml-1">
                                 {{ restaurant.rating }}
-                                ({{restaurant.review_count}})</span>
+                                ({{restaurant.review_count|default:'10+'}})</span>
                         </div>
                         <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">25-35 min • $2.99 delivery</span>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Free
-                                delivery</span>
+                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
                         </div>
                     </div>
                 </div>
+                </a>
                 {%endfor%}
-                <div
-                    class="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="relative">
-                        <img src="https://i.pinimg.com/1200x/37/d7/f1/37d7f1be511e5376f7c1bc8e7e6ca9b0.jpg?height=120&width=256"
-                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-t-lg">
-                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
-                            <img src="{%static 'images/prom.png'%}" alt="" class="w-4 h-4">
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-gray-400 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">Gourmet Burger House</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                <i class="fas fa-star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="size-4">
-                                        <path fill-rule="evenodd"
-                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </i>
-                                <i class="fas fa-star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="size-4">
-                                        <path fill-rule="evenodd"
-                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </i>
-                                <i class="fas fa-star"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="size-4">
-                                        <path fill-rule="evenodd"
-                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </i>
-                                <i class="fas fa-star-half-alt"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                                    </svg>
-                                </i>
-                                <i class="fas fa-star-half-alt"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                                    </svg>
-                                </i>
-                            </div>
-                            <span class="text-xs text-gray-600 ml-1">4.5 (120)</span>
-                        </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">25-35 min • $2.99 delivery</span>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Free
-                                delivery</span>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="relative">
-                        <img src="/placeholder.svg?height=120&width=256" alt="Burger House"
-                            class="w-full h-32 object-cover rounded-t-lg">
-                        <div class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-                            Sponsored
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-red-500 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">Gourmet Burger House</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-xs text-gray-600 ml-1">4.8 (89)</span>
-                        </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">20-30 min • $1.99 delivery</span>
-                            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">20% off</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
-                    <div class="relative">
-                        <img src="/placeholder.svg?height=120&width=256" alt="Sushi Express"
-                            class="w-full h-32 object-cover rounded-t-lg">
-                        <div class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded-full">
-                            Sponsored
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-gray-400 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">Sushi Express</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="text-xs text-gray-600 ml-1">4.2 (156)</span>
-                        </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">30-45 min • $3.99 delivery</span>
-                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">New</span>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </section>
 
+    <!-- Sponsored Supermarkets -->
+    <section class="py-6 bg-white rounded-2xl mb-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Top Supermarkets</h2>
+                <button class="text-primary text-sm font-medium">See All</button>
+            </div>
+            <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
+                {% for restaurant in restaurants %}
+                <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
+                    <div
+                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
+                    <div class="relative">
+                        <img src="{{restaurant.image.url}}?height=120&width=256"
+                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
+                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
+                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
+                        </div>
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
+                            <i class="fas fa-heart text-gray-400 text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
+                        <div class="flex items-center mt-1">
+                            <div class="flex text-yellow-400 text-xs">
+                                {{ restaurant.rating|inline_star_rating|safe }}
+                            </div>
+                            <span class="text-xs text-gray-600 ml-1">
+                                {{ restaurant.rating }}
+                                ({{restaurant.review_count|default:'10+'}})</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {%endfor%}
+                
+            </div>
+        </div>
+    </section>
+    <!-- Sponsored Pharmacies -->
+    <section class="py-6 bg-white rounded-2xl mb-3">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Top Pharmacies</h2>
+                <button class="text-primary text-sm font-medium">See All</button>
+            </div>
+            <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
+                {% for restaurant in restaurants %}
+                <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
+                    <div
+                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
+                    <div class="relative">
+                        <img src="{{restaurant.image.url}}?height=120&width=256"
+                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
+                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
+                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
+                        </div>
+                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
+                            <i class="fas fa-heart text-gray-400 text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
+                        <div class="flex items-center mt-1">
+                            <div class="flex text-yellow-400 text-xs">
+                                {{ restaurant.rating|inline_star_rating|safe }}
+                            </div>
+                            <span class="text-xs text-gray-600 ml-1">
+                                {{ restaurant.rating }}
+                                ({{restaurant.review_count|default:'10+'}})</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+                {%endfor%}
+                
+            </div>
+        </div>
+    </section>
     <!-- Filters -->
     <section class="py-4 bg-gray-50 rounded-2xl">
         <div class="max-w-7xl mx-auto px-4">
