@@ -1,0 +1,16 @@
+runtime: python313
+entrypoint: gunicorn -b :$PORT SkiiiEatz.wsgi
+
+env_variables:
+  DB_NAME=postgres
+  DB_USER=postgres.zpjrobtgkkrmxqmqctag
+  DB_PASSWORD=Dr34m555k111!
+  DB_HOST=aws-0-us-west-1.pooler.supabase.com
+  DB_PORT=6543
+  CLOUDINARY_CLOUD_NAME=dizletygg
+  CLOUDINARY_API_KEY=975699646941251
+  CLOUDINARY_API_SECRET=XuIa9UMpfZyXoEB2pF6oH164oP8
+
+handlers:
+  - url: /.*
+    script: auto
