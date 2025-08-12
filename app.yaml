@@ -11,6 +11,10 @@ env_variables:
   CLOUDINARY_API_KEY=975699646941251
   CLOUDINARY_API_SECRET=XuIa9UMpfZyXoEB2pF6oH164oP8
 
+
 handlers:
+  - url: /static
+    static_dir: staticfiles
+
   - url: /.*
     script: auto
