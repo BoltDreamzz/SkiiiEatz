@@ -203,6 +203,13 @@ def general_search(request):
 
 #     return render(request, 'cart/partials/pack_items.html', {'pack': pack})
 
+def vendor_page(request):
+    messages.success(request, "Welcome! 🥳")
+    # Assuming you have a Vendor model
+    # vendor = get_object_or_404(Vendor, id=vendor_id)
+    
+    return render(request, 'core/vendors.html')
+
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -297,3 +304,5 @@ def checkout(request):
         default_address = None
 
     return render(request, "core/checkout.html", {"default_address": default_address})
+
+

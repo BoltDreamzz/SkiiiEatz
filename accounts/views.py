@@ -57,16 +57,15 @@ from .utils import generate_username
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 
-
 def register_view(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = generate_username()  # Assign random username
+            user.set_password(form.cleaned_data['password'])  # ✅ Hash password
             user.save()
 
-            
             messages.success(request, '🥳 Account created. Please log in.')
             return redirect('accounts:login')
         else:
@@ -76,10 +75,35 @@ def register_view(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 
-class CustomLoginView(LoginView):
-    authentication_form = LoginForm
-    template_name = 'accounts/login.html'
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('username')  # In your form, username field is actually email
+            password = form.cleaned_data.get('password')
 
+            # Authenticate using custom backend
+            user = authenticate(request, username=email, password=password)
+
+            if user is not None:
+                login(request, user)
+
+                # Handle "keep me signed in"
+                if 'remember_me' in request.POST:
+                    request.session.set_expiry(1209600)  # 2 weeks
+                else:
+                    request.session.set_expiry(0)  # expires on browser close
+
+                messages.success(request, f'👋 Welcome back, {user.full_name}!')
+                return redirect('core:explore')  # Change to your dashboard/home URL
+            else:
+                messages.error(request, '🚫 Invalid email or password.')
+        else:
+            messages.error(request, '🚫 Please correct the errors below.')
+    else:
+        form = LoginForm()
+
+    return render(request, 'accounts/login.html', {'form': form})
 
 @login_required
 def create_profile_view(request):

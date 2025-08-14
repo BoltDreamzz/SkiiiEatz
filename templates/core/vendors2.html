@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SkiiiEatz — Vendors</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* small custom animation helpers */
+    .fade-up { transform: translateY(10px); opacity: 0; transition: all 700ms cubic-bezier(.22,.9,.35,1); }
+    .fade-up.in { transform: translateY(0); opacity: 1; }
+    .pop { transform: scale(.98); opacity: 0; transition: all 650ms cubic-bezier(.22,.9,.35,1); }
+    .pop.in { transform: scale(1); opacity: 1; }
+    .pulse-slow { animation: pulse 3s infinite; }
+    @keyframes floaty {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+    .floaty { animation: floaty 4s ease-in-out infinite; }
+    /* marquee-like scroll of badges */
+    .marquee { overflow: hidden; white-space: nowrap; }
+    .marquee > div { display: inline-block; padding-left: 100%; animation: marquee 18s linear infinite; }
+    @keyframes marquee {
+      from { transform: translateX(0%); }
+      to { transform: translateX(-100%); }
+    }
+    /* small app screenshot frame */
+    .app-frame { border-radius: 20px; box-shadow: 0 10px 30px rgba(2,6,23,0.12); border: 1px solid rgba(15,23,42,0.06); overflow: hidden; background: linear-gradient(180deg,#fff,#f8fafc); }
+  </style>
+</head>
+<body class="antialiased text-slate-800 bg-gradient-to-br from-white via-slate-50 to-white">
+  <!-- NAV -->
+  <nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">SE</div>
+      <div>
+        <div class="text-lg font-extrabold">SkiiiEatz</div>
+        <div class="text-xs text-slate-400 -mt-1">Vendors</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="#" class="text-sm text-slate-600 hover:text-slate-900">Company</a>
+      <a href="#" class="text-sm text-rose-600 font-medium">Vendors</a>
+      <a href="#" class="text-sm text-slate-600">Riders</a>
+      <a href="#" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-lg shadow hover:opacity-95" id="startSelling">Start Selling</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">Grow your<br><span class="text-rose-600">food business</span></h1>
+        <p class="mt-6 text-lg text-slate-600">Join thousands of businesses selling daily on SkiiiEatz. Boost orders, increase visibility, and grow your revenue.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#" class="inline-flex items-center gap-3 bg-rose-600 text-white px-5 py-3 rounded-lg shadow">Start Selling</a>
+          <a href="#" class="inline-flex items-center gap-3 border border-slate-200 px-5 py-3 rounded-lg">Log in to dashboard</a>
+        </div>
+
+        <div class="mt-8 grid grid-cols-3 gap-3 opacity-90">
+          <div class="app-frame p-3 fade-up" style="--delay:0ms">
+            <div class="h-40 w-full bg-gradient-to-b from-white to-rose-50 rounded-md flex items-center justify-center">
+              <svg width="72" height="72" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#f43f5e" stroke-width="1.5"/><path d="M7 12h10" stroke="#f43f5e" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="app-frame p-3 fade-up" style="--delay:80ms">
+            <div class="h-40 w-full bg-gradient-to-b from-white to-slate-50 rounded-md flex items-center justify-center text-slate-400">Orders</div>
+          </div>
+          <div class="app-frame p-3 fade-up" style="--delay:160ms">
+            <div class="h-40 w-full bg-gradient-to-b from-white to-slate-50 rounded-md flex items-center justify-center text-slate-400">Sales</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -right-6 -top-8 w-80 h-80 rounded-3xl bg-gradient-to-br from-rose-100 to-rose-50 opacity-70 blur-3xl transform rotate-6"></div>
+        <div class="relative grid grid-cols-3 gap-4 lg:gap-6">
+          <!-- replicate a cascade of app screenshot cards -->
+          <div class="app-frame p-4 pop" style="transform: translateY(20px);">
+            <div class="h-48 w-40 bg-white rounded-md flex items-center justify-center">App 1</div>
+          </div>
+          <div class="app-frame p-4 pop">
+            <div class="h-48 w-40 bg-white rounded-md flex items-center justify-center">App 2</div>
+          </div>
+          <div class="app-frame p-4 pop">
+            <div class="h-48 w-40 bg-white rounded-md flex items-center justify-center">App 3</div>
+          </div>
+
+          <div class="app-frame p-4 pop col-span-2">
+            <div class="h-48 w-full bg-white rounded-md flex items-center justify-center">Big preview</div>
+          </div>
+          <div class="app-frame p-4 pop">
+            <div class="h-48 w-40 bg-white rounded-md flex items-center justify-center">App 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SELLER BENEFITS / CHOWPASS -->
+  <section class="bg-white border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h3 class="text-2xl font-bold">Sell More with SkiiiPass</h3>
+          <p class="mt-4 text-slate-600">Enjoy increased sales, reduced service fees to your customers, and premium listing to stand out.</p>
+          <ul class="mt-6 space-y-3 text-slate-700">
+            <li class="flex items-start gap-3"><span class="mt-1 text-rose-600">●</span> Premium visibility</li>
+            <li class="flex items-start gap-3"><span class="mt-1 text-rose-600">●</span> Dedicated support</li>
+            <li class="flex items-start gap-3"><span class="mt-1 text-rose-600">●</span> Reduced fees</li>
+          </ul>
+          <div class="mt-6 flex gap-3">
+            <a href="#" class="inline-flex items-center gap-2 bg-rose-600 text-white px-4 py-2 rounded-lg">Learn more</a>
+            <a href="#" class="inline-flex items-center gap-2 border border-slate-200 px-4 py-2 rounded-lg">Start selling</a>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="app-frame p-4 fade-up"> <div class="h-40 w-full rounded-md bg-gradient-to-b from-white to-rose-50 flex items-center justify-center">Feature A</div></div>
+          <div class="app-frame p-4 fade-up"> <div class="h-40 w-full rounded-md bg-gradient-to-b from-white to-slate-50 flex items-center justify-center">Feature B</div></div>
+          <div class="app-frame p-4 fade-up"> <div class="h-40 w-full rounded-md bg-gradient-to-b from-white to-slate-50 flex items-center justify-center">Feature C</div></div>
+          <div class="app-frame p-4 fade-up"> <div class="h-40 w-full rounded-md bg-gradient-to-b from-white to-rose-50 flex items-center justify-center">Feature D</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD CTA -->
+  <section class="max-w-7xl mx-auto px-6 py-14">
+    <div class="bg-gradient-to-r from-rose-50 to-white rounded-2xl p-8 grid md:grid-cols-3 gap-6 items-center">
+      <div class="md:col-span-2">
+        <h4 class="text-2xl font-bold">Get started, download the app.</h4>
+        <p class="mt-2 text-slate-600">Manage orders, track sales, and keep your business growing on the go.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#" class="inline-flex items-center gap-3 border border-slate-200 px-4 py-3 rounded-lg">Download on Google Play</a>
+          <a href="#" class="inline-flex items-center gap-3 border border-slate-200 px-4 py-3 rounded-lg">Download on App Store</a>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="app-frame p-4 floaty">
+          <div class="h-36 w-full rounded-md flex items-center justify-center">Phone UI</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="max-w-7xl mx-auto px-6 py-10 text-sm text-slate-500">
+    <div class="flex flex-col md:flex-row justify-between gap-6">
+      <div>
+        <div class="font-bold">SkiiiEatz</div>
+        <div class="mt-2">© All Rights Reserved. 2025 SkiiiEatz</div>
+      </div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:underline">Contact</a>
+        <a href="#" class="hover:underline">Blog</a>
+        <a href="#" class="hover:underline">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // simple reveal on scroll with IntersectionObserver
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.classList.add('in');
+          // add slight stagger using CSS variable if provided
+          const delay = entry.target.style.getPropertyValue('--delay');
+          if (delay) {
+            entry.target.style.transitionDelay = delay;
+          }
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up, .pop').forEach(el => {
+      io.observe(el);
+    });
+
+    // small entrance stagger for hero app frames
+    document.addEventListener('DOMContentLoaded', () => {
+      const pops = document.querySelectorAll('.pop');
+      pops.forEach((p, i) => {
+        setTimeout(() => p.classList.add('in'), 100 + i * 90);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -134,36 +134,7 @@
         transition: stroke-dashoffset 5s linear;
     }
 
-    /* Fast marquee animation */
-    @keyframes marquee-fast {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-
-    /* Slow marquee animation */
-    @keyframes marquee-slow {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-
-    /* Classes for animation speeds */
-    .animate-marquee-fast {
-        animation: marquee-fast 10s linear infinite;
-    }
-
-    .animate-marquee-slow {
-        animation: marquee-slow 20s linear infinite;
-    }
+    
 </style>
 
 <!-- <br><br><br><br><br> -->
@@ -293,23 +264,23 @@
 
         </div>
     </div>
-    <div class="w-full -mt-[100px] bg-white p-6 mb-4 min-h-60">
+    <div class="w-full -mt-[100px] bg-white p-2 mb-4 min-h-60">
 
         <!-- Tabs -->
-        <div class="bg-yellow-200 rounded-full p-2 mb-12">
+        <div class="bg-yellow-200 rounded-full p-2 my-12">
             <div class="flex">
                 <button
-                    class="tab-btn flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all duration-200 bg-yellow-400 text-gray-900"
+                    class="tab-btn flex-1 py-3 px-4 rounded-full text-xs font-medium transition-all duration-200 bg-yellow-400 text-gray-900"
                     data-tab="tab1">
                     Restaurants
                 </button>
                 <button
-                    class="tab-btn flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all duration-200 text-gray-600"
+                    class="tab-btn flex-1 py-3 px-4 rounded-full text-xs font-medium transition-all duration-200 text-gray-600"
                     data-tab="tab2">
                     Pharmacies
                 </button>
                 <button
-                    class="tab-btn flex-1 py-3 px-6 rounded-full text-sm font-medium transition-all duration-200 text-gray-600"
+                    class="tab-btn flex-1 py-3 px-4 rounded-full text-xs font-medium transition-all duration-200 text-gray-600"
                     data-tab="tab3">
                     Apartments
                 </button>
@@ -546,14 +517,13 @@
     </h2> -->
     <div class="flex items-center justify-center">
         <span class="w-1/2 lg:1/3 p-3">
-            <h2 class="text-2xl font-black">Why choose SkiiiEatz</h2>
+            <h2 class="text-2xl font-black">What does SkiiiEatz offer ?</h2>
         </span>
         <span class="w-1/2 lg:1/3 p-3 flex items-center justify-end">
             <!-- <h2 class="text-3xl font-black"> -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 w-8 h-8">
-                <path fill-rule="evenodd"
-                    d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
-                    clip-rule="evenodd" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 drop-shadow text-black">
+                <path d="M10 3v10.638l3.96-4.158M10 13.638L6.04 9.48" />
             </svg>
             <!-- </h2> -->
         </span>
@@ -580,77 +550,9 @@
 
             </div>
 
-            <!-- Character Grid -->
-            <div class="grid grid-cols-5 gap-0 -mx-6 -mb-6 border-t border-t-black border-t-4">
-                <!-- Top Row -->
-                <div class="bg-pink-300 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-purple-600 rounded-full relative">
-                        <div class="absolute top-1 left-2 w-2 h-2 bg-orange-400 rounded-full"></div>
-                        <div class="absolute top-1 right-2 w-2 h-2 bg-orange-400 rounded-full"></div>
-                        <div
-                            class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-green-500 rounded-full">
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-purple-400 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-10 bg-blue-300 rounded-t-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-black rounded-full"></div>
-                    </div>
-                </div>
-                <div class="bg-yellow-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-8 bg-purple-600 relative" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)">
-                        <div
-                            class="absolute top-3 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-orange-400 rounded-full">
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-blue-300 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-pink-400 relative"
-                        style="clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)">
-                        <div class="absolute top-2 left-2 w-1 h-1 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-1 h-1 bg-black rounded-full"></div>
-                    </div>
-                </div>
-                <div class="bg-green-600 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-10 bg-pink-300 rounded-t-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-red-500 rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></div>
-                    </div>
-                </div>
-
-                <!-- Bottom Row -->
-                <div class="bg-red-500 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-yellow-400 rounded-full relative">
-                        <div class="absolute top-2 left-1 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-1 w-2 h-2 bg-black rounded-full"></div>
-                    </div>
-                </div>
-                <div class="bg-blue-400 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-red-600 rounded-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-500"></div>
-                    </div>
-                </div>
-                <div class="bg-green-700 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-pink-400 rounded-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-black rounded-full"></div>
-                    </div>
-                </div>
-                <div class="bg-pink-400 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-yellow-400 rounded-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-black rounded-full"></div>
-                    </div>
-                </div>
-                <div class="bg-yellow-500 aspect-square flex items-center justify-center">
-                    <div class="w-8 h-8 bg-red-500 rounded-full relative">
-                        <div class="absolute top-2 left-2 w-2 h-2 bg-black rounded-full"></div>
-                        <div class="absolute top-2 right-2 w-2 h-2 bg-black rounded-full"></div>
-                    </div>
-                </div>
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/kpa.svg'%}" alt="" class="w-100 h-auto object-cover">
             </div>
         </div>
 
@@ -671,38 +573,9 @@
 
             </div>
 
-            <!-- Tech Icons Grid -->
-            <div class="grid grid-cols-5 gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
-                <div class="bg-blue-600 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-white rounded border-2 border-gray-800"></div>
-                </div>
-                <div class="bg-green-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-400 rounded-full"></div>
-                </div>
-                <div class="bg-purple-600 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-pink-400" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"></div>
-                </div>
-                <div class="bg-orange-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-300 rounded-full"></div>
-                </div>
-                <div class="bg-red-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-green-400 transform rotate-45"></div>
-                </div>
-                <div class="bg-yellow-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-purple-600 rounded-full"></div>
-                </div>
-                <div class="bg-pink-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-400 transform rotate-45"></div>
-                </div>
-                <div class="bg-teal-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-orange-400 rounded"></div>
-                </div>
-                <div class="bg-indigo-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-300 rounded-full"></div>
-                </div>
-                <div class="bg-emerald-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-red-400" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%)"></div>
-                </div>
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/skk.svg'%}" alt="" class="w-100 h-auto object-cover">
             </div>
         </div>
 
@@ -724,50 +597,20 @@
             </div>
 
             <!-- Community Grid -->
-            <div class="grid grid-cols-5 gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
-                <div class="bg-emerald-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-white rounded-full border-2 border-green-600"></div>
-                </div>
-                <div class="bg-blue-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-300 rounded-full"></div>
-                </div>
-                <div class="bg-purple-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-pink-300 rounded"></div>
-                </div>
-                <div class="bg-orange-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-500 rounded-full"></div>
-                </div>
-                <div class="bg-pink-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-green-500 transform rotate-45"></div>
-                </div>
-                <div class="bg-teal-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-red-400 rounded-full"></div>
-                </div>
-                <div class="bg-indigo-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-400 rounded"></div>
-                </div>
-                <div class="bg-red-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-300 rounded-full"></div>
-                </div>
-                <div class="bg-yellow-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-purple-400 transform rotate-45"></div>
-                </div>
-                <div class="bg-green-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-orange-300 rounded-full"></div>
-                </div>
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/expl.svg'%}" alt="" class="w-100 h-auto object-cover">
             </div>
         </div>
 
         <!-- Card 4: Creative Studio -->
         <div class="bg-purple-50 rounded-3xl border-4 border-black p-6 relative overflow-hidden" data-aos="flip-up">
             <div class="triangle mb-4"></div>
-            <h2 class="text-2xl font-bold text-black mb-4">Creative Studio</h2>
+            <h2 class="text-2xl font-bold text-black mb-4">Send Packages Faster</h2>
             <p class="text-gray-700 text-base leading-relaxed mb-8">
-                Unleash your artistic potential in our collaborative creative space. From design to digital art, express
-                yourself freely.
+                Start sending packages easily and faster than you could imagine, and more secure than ever!.
             </p>
-            <div class="flex items-center text-black font-semibold text-sm tracking-wider mb-6">
-                CREATE NOW <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            <div class="flex items-center gap-3 text-black font-semibold text-sm tracking-wider mb-6">
+                START SENDING <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="size-5">
                     <path fill-rule="evenodd"
                         d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
@@ -775,40 +618,13 @@
                 </svg>
 
             </div>
-
-            <!-- Art Tools Grid -->
-            <div class="grid grid-cols-5 gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
-                <div class="bg-red-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-300 rounded-full"></div>
-                </div>
-                <div class="bg-blue-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-pink-300 rounded"></div>
-                </div>
-                <div class="bg-green-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-purple-400 rounded-full"></div>
-                </div>
-                <div class="bg-yellow-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-300 transform rotate-45"></div>
-                </div>
-                <div class="bg-purple-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-green-300 rounded-full"></div>
-                </div>
-                <div class="bg-orange-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-red-300 rounded"></div>
-                </div>
-                <div class="bg-teal-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-yellow-300 rounded-full"></div>
-                </div>
-                <div class="bg-pink-500 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-blue-400 transform rotate-45"></div>
-                </div>
-                <div class="bg-indigo-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-orange-300 rounded-full"></div>
-                </div>
-                <div class="bg-emerald-400 aspect-square flex items-center justify-center">
-                    <div class="w-6 h-6 bg-purple-300 rounded"></div>
-                </div>
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/delv.svg'%}" alt="" class="w-100 h-auto object-cover">
             </div>
+
+            
+            
         </div>
 
     </div>

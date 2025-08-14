@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from django.contrib.contenttypes.fields import GenericForeignKey
 from geopy.geocoders import Nominatim
 from datetime import time
+from sass.models import Business
 
 from django.utils.text import slugify
 
@@ -44,7 +45,10 @@ class Restaurant(models.Model):
     # Open and close 
     open_time = models.TimeField(default=time(8, 0))   # default 8:00 AM
     close_time = models.TimeField(default=time(22, 0)) # default 10:00 PM   
+    business = models.OneToOneField(Business, on_delete=models.CASCADE, related_name='restaurant_details', null=True, blank=True)
     
+
+
     def is_open_now(self):
         now = timezone.localtime().time()
         return self.open_time <= now < self.close_time

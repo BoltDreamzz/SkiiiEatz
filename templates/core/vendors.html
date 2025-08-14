@@ -1,0 +1,607 @@
+{%extends 'partials/base.html'%}
+{%block title%}Vendors{%endblock%}
+{%load static%}
+{%block content%}
+
+
+
+<style>
+    html {
+        scroll-behavior: smooth;
+        /* background: #000; */
+        background: linear-gradient(135deg, #FCA311 0%, #FDE68A 45%);
+
+        /* background: #FCA311; */
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(5deg);
+        }
+    }
+
+    @keyframes floatReverse {
+
+        0%,
+        100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(20px) rotate(-5deg);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .float-animation {
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .float-reverse {
+        animation: floatReverse 8s ease-in-out infinite;
+    }
+
+    .spin-slow {
+        animation: spin 20s linear infinite;
+    }
+
+    .pulse-slow {
+        animation: pulse 4s ease-in-out infinite;
+    }
+
+    .food-illustration {
+        position: absolute;
+        z-index: 10;
+    }
+
+    /* Custom gradient background */
+    .hero-bg {
+        background: linear-gradient(135deg, #FCA311 0%, #FDE68A 50%, #fca2111b 100%);
+        min-height: 80vh;
+        /* max-height: calc(80vh - 3); */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Custom shapes */
+    .shape-circle {
+        border-radius: 50%;
+    }
+
+    .shape-oval {
+        border-radius: 50%;
+        transform: scaleX(1.5);
+    }
+</style>
+</head>
+
+
+<!-- Hero Section -->
+<main class="hero-bg relative">
+    <!-- Floating Food Illustrations -->
+
+    <!-- Carrot (top left area) -->
+    <div class="food-illustration top-32 left-20 float-animation">
+        <div class="w-16 h-4 bg-orange-500 rounded-full transform rotate-45 relative">
+            <div class="absolute -top-2 -right-1 w-6 h-8 bg-green-500 rounded-t-full transform -rotate-12"></div>
+        </div>
+    </div>
+
+    <!-- Green vegetables (left side) -->
+    <div class="food-illustration top-80 left-32 float-reverse">
+        <div class="w-20 h-6 bg-green-600 rounded-full transform rotate-12 relative">
+            <div class="absolute top-1 left-2 w-3 h-3 bg-green-400 rounded-full"></div>
+            <div class="absolute top-1 right-2 w-3 h-3 bg-green-400 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Purple circles (left side) -->
+    <div class="food-illustration top-96 left-16 pulse-slow">
+        <div class="w-24 h-24 border-4 border-purple-400 rounded-full relative">
+            <div class="absolute inset-2 border-2 border-purple-300 rounded-full">
+                <div class="absolute inset-2 border-2 border-purple-200 rounded-full">
+                    <div class="absolute inset-2 bg-purple-100 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Large plate with rice (center bottom) -->
+    <div class="food-illustration bottom-32 left-1/2 transform -translate-x-1/2 spin-slow">
+        <div class="w-48 h-48 border-8 border-red-400 rounded-full bg-white relative">
+            <div class="absolute inset-4 bg-gray-100 rounded-full opacity-80">
+                <!-- Rice dots pattern -->
+                <div class="absolute inset-0 flex flex-wrap justify-center items-center p-4">
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-300 rounded-full m-1"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full m-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spoon (right side of plate) -->
+    <div class="food-illustration bottom-40 right-80 float-animation">
+        <div class="w-6 h-32 bg-purple-200 rounded-full relative">
+            <div class="absolute -top-2 -left-2 w-10 h-8 bg-purple-200 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- Yellow circles (right side) -->
+    <div class="food-illustration top-80 right-32 pulse-slow">
+        <div class="w-16 h-16 bg-yellow-400 rounded-full"></div>
+        <div class="w-12 h-12 bg-yellow-500 rounded-full mt-2 ml-4"></div>
+    </div>
+
+    <!-- Purple oval (right side) -->
+    <div class="food-illustration top-96 right-20 float-reverse">
+        <div class="w-20 h-16 bg-purple-300 shape-oval"></div>
+    </div>
+
+    <!-- Small black circle with dots -->
+    <div class="food-illustration bottom-80 left-96 spin-slow">
+        <div class="w-12 h-12 bg-black rounded-full relative">
+            <div class="absolute inset-2 flex flex-wrap justify-center items-center">
+                <div class="w-1 h-1 bg-white rounded-full m-0.5"></div>
+                <div class="w-1 h-1 bg-white rounded-full m-0.5"></div>
+                <div class="w-1 h-1 bg-white rounded-full m-0.5"></div>
+                <div class="w-1 h-1 bg-white rounded-full m-0.5"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hands -->
+    <div class="food-illustration bottom-20 left-20 float-animation">
+        <div class="w-20 h-24 bg-amber-800 rounded-t-full transform rotate-12"></div>
+    </div>
+
+    <div class="food-illustration bottom-16 right-16 float-reverse">
+        <div class="w-24 h-28 bg-amber-900 rounded-t-full transform -rotate-12"></div>
+    </div>
+
+    <!-- Red dots scattered -->
+    <div class="food-illustration top-40 right-40 pulse-slow">
+        <div class="w-4 h-4 bg-red-400 rounded-full"></div>
+    </div>
+    <div class="food-illustration top-96 right-60 pulse-slow">
+        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+    </div>
+    <div class="food-illustration bottom-60 left-60 pulse-slow">
+        <div class="w-5 h-5 bg-red-400 rounded-full"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-3 pt-10 pb-5">
+        <div class="max-w-2xl text-center">
+            <h1 class="text-6xl md:text-7xl font-black text-black leading-tight mb-6">
+                Grow your<br>
+                Food Business
+            </h1>
+
+            <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                Join over 3,000+ businesses selling daily on SkiiiEatz. Enjoy a boost in
+                merchant sales, growth in business value, and increased brand awareness.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button
+                    class="bg-black w-full text-white px-8 py-4 rounded-2xl font-medium hover:bg-gray-800 transition-colors">
+                    Start Selling on SkiiiEatz
+                </button>
+                <button
+                    class="border-4 w-full border-yellow-500 text-white px-8 py-4 rounded-2xl font-medium hover:border-yellow-600 transition-colors">
+                    Log In
+                </button>
+            </div>
+        </div>
+
+
+
+        <section class="min-h-[600px] overflow-hidden flex flex-col items-center justify-center my-4">
+            <!-- <div class="flex items-center justify-center w-full px-4">
+                <span class="w-1/2 lg:1/3">
+                    <h2 class="text-2xl font-black text-black">What our clients think</h2>
+                </span>
+                <span class="w-1/2 lg:1/3 flex items-center justify-end text-orange">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="size-6 drop-shadow text-black">
+                        <path d="M10 3v10.638l3.96-4.158M10 13.638L6.04 9.48" />
+                    </svg>
+
+
+                </span>
+
+            </div>
+            <br>
+            <br> -->
+            <!-- Top Fast Marquee -->
+
+
+            <!-- Bottom Slow Marquee -->
+            <div class="relative">
+                <div class="flex animate-marquee-slow space-x-8">
+                    <!-- iPhone Mockup 1 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup1.png' %}" alt="Mockup 1" class="h-64 object-contain"> -->
+                    </div>
+
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+
+                    <!-- iPhone Mockup 3 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup3.png' %}" alt="Mockup 3" class="h-64 object-contain"> -->
+                    </div>
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+                    <!-- iPhone Mockup 1 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup1.png' %}" alt="Mockup 1" class="h-64 object-contain"> -->
+                    </div>
+
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+
+                    <!-- iPhone Mockup 3 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup3.png' %}" alt="Mockup 3" class="h-64 object-contain"> -->
+                    </div>
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+                    <!-- iPhone Mockup 2 -->
+                    <div class="shrink-0">
+                        <!-- Phone Mockup -->
+                        <div class="relative mx-auto w-48">
+                            <div class="bg-gray-900 rounded-3xl p-2">
+                                <div class="bg-white rounded-2xl overflow-hidden">
+                                    <div class="h-80 bg-gradient-to-b from-gray-50 to-gray-100 p-4">
+                                        <div class="text-xs text-gray-600 mb-2">Featured</div>
+                                        <div class="bg-white rounded-lg shadow-sm p-2 mb-2">
+                                            <div class="h-16 bg-gray-200 rounded mb-2"></div>
+                                            <div class="text-xs font-medium">Hotel D'Angelo</div>
+                                            <div class="text-xs text-gray-500">₦30,000 • per night</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- <img src="{% static 'images/mockup2.png' %}" alt="Mockup 2" class="h-64 object-contain"> -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</main>
+
+<!-- Bottom Feature Cards -->
+<section
+    class="bg-[#38040e] px-3 py-16 min-h-[600px] flex flex-col text-center items-center justify-center space-y-4 pt-16">
+    <h1 class="text-[#f9dbbd] text-4xl font-black">Sell More with <br> SkiiiPlus</h1>
+    <p class="text-[#f9dbbd]">Enjoy increased sales, low or no service charged fees to your customers, and premium
+        benefits and more. With SkiiiPlus, you get 10X more orders, more frequent customers and an intuitive dashboard.
+    </p>
+    <div class="text-center"><img src="{%static 'images/skip.svg'%}" alt="" class="w-56 h-56" data-aos="flip-left"
+            data-aos-duration="3000"></div>
+    <div class="text-center flex items-center">
+        <a href="#" class="rounded-xl text-sm bg-[#f9dbbd] -mt-10 px-5 py-3 flex items-center gap-3" data-aos="flip-up"
+            data-aos-delay="1500" data-aos-duration="1500">Learn about SkiiiPlus <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                <path fill-rule="evenodd"
+                    d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </a>
+    </div>
+</section>
+
+<section class="bg-gray-100 px-3 py-16 min-h-[600px] flex flex-col items-center justify-center space-y-4 pt-16">
+    <div class="flex w-full px-4">
+        <span class="w-1/2 flex justify-start">
+            <h2 class="text-2xl font-black text-black">Benefits of using SkiiiPlus</h2>
+        </span>
+        <span class="w-1/2 flex items-center justify-end">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 drop-shadow text-black">
+                <path d="M10 3v10.638l3.96-4.158M10 13.638L6.04 9.48" />
+            </svg>
+
+
+        </span>
+
+    </div>
+    <br>
+    <br>
+    <div class="max-w-sm mx-auto space-y-6">
+
+        <!-- Card 1: Behind the scenes (Original) -->
+        <div class="bg-gray-50 rounded-3xl border-4 border-black p-6 relative overflow-hidden" data-aos="flip-up">
+            <div class="circle mb-2"><img src="{%static 'images/ac.svg'%}" alt="" class="w-28"></div>
+            <h2 class="text-2xl font-bold text-black mb-4">Zero Delivery Fees</h2>
+            <p class="text-gray-700 text-base leading-relaxed mb-8">
+                      Forget paying for delivery every time. SkiiiPlus gives you unlimited free deliveries from all your favorite vendors. More food in your cart, more money in your pocket.
+
+            </p>
+            <div class="flex items-center text-black font-semibold text-sm tracking-wider mb-6">
+                SEE MORE <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd"
+                        d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </div>
+
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/eating.svg'%}" alt="" class="w-100 h-auto object-cover">
+            </div>
+        </div>
+
+        <!-- Card 2: Innovation Hub -->
+        <div class="bg-blue-50 rounded-3xl border-4 border-black p-6 relative overflow-hidden" data-aos="flip-up">
+            <div class="circle mb-2"><img src="{%static 'images/gft.svg'%}" alt="" class="w-28"></div>
+            <h2 class="text-2xl font-bold text-black mb-4">Save Big on Every Order</h2>
+            <p class="text-gray-700 text-base leading-relaxed mb-8">
+                      Get instant discounts on every meal, grocery, or pharmacy order. With SkiiiPlus, your savings can cover your subscription fee in just a few days. Why pay full price when you can dine, shop, and smile for less?
+
+            </p>
+            <div class="flex items-center text-black font-semibold text-sm tracking-wider mb-6">
+                EXPLORE <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd"
+                        d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </div>
+
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/expl.svg'%}" alt="" class="w-100 h-auto object-cover">
+            </div>
+        </div>
+
+        <!-- Card 3: Community Impact -->
+        <div class="bg-green-50 rounded-3xl border-4 border-black p-6 relative overflow-hidden" data-aos="flip-up">
+            <div class="circle mb-2"><img src="{%static 'images/xp.svg'%}" alt="" class="w-28"></div>
+            <h2 class="text-2xl font-bold text-black mb-4">Exclusive Access & Priority Services</h2>
+            <p class="text-gray-700 text-base leading-relaxed mb-8">
+                Make a difference in your local community. Connect with neighbors and create positive change together.
+            </p>
+            <div class="flex items-center text-black font-semibold text-sm tracking-wider mb-6">
+                GET INVOLVED <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class="size-5">
+                    <path fill-rule="evenodd"
+                        d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </div>
+
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/kpa.svg'%}" alt="" class="w-100 h-auto object-cover">
+            </div>
+        </div>
+        <!-- Card 2: Innovation Hub -->
+        <div class="bg-blue-50 rounded-3xl border-4 border-black p-6 relative overflow-hidden" data-aos="flip-up">
+            <div class="circle mb-2"><img src="{%static 'images/cup.svg'%}" alt="" class="w-28"></div>
+            <h2 class="text-2xl font-bold text-black mb-4">Skyrocket your Business</h2>
+            <p class="text-gray-700 text-base leading-relaxed mb-8">
+                      Get instant discounts on every meal, grocery, or pharmacy order. With SkiiiPlus, your savings can cover your subscription fee in just a few days. Why pay full price when you can dine, shop, and smile for less?
+
+            </p>
+            <div class="flex items-center text-black font-semibold text-sm tracking-wider mb-6">
+                EXPLORE <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                    <path fill-rule="evenodd"
+                        d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+            </div>
+
+            <!-- Tech Icons Grid -->
+            <!-- Community Grid -->
+            <div class="gap-0 -mx-6 -mb-6 border border-t border-black border-t-4">
+                <img src="{%static 'images/skk.svg'%}" alt="" class="w-100 h-48 object-cover">
+            </div>
+        </div>
+
+        
+
+    </div>
+</section>
+{%endblock%}

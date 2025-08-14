@@ -1,6 +1,138 @@
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
+{% extends 'partials/base.html' %}
+{% load static %}
+<!-- {% load rating_tags %} -->
+{% load humanize %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+<style>
+    html {
+        scroll-behavior: smooth;
+        background: #000;
+
+    }
+</style>
+
+
+<div class="min-h-screen p-4 space-y-3">
+    <div class="w-full flex items-center justify-center min-h-36 mb-4">
+        <img data-aos="zoom-in" src="{% static 'images/lgs.svg' %}" alt="" class="w-100 h-auto object-cover">
+    </div>
+    <br>
+    <div class="flex flex-col mb-4">
+        <h1 class="text-3xl font-black text-orange">Welcome back.</h1>
+        <p class="text-orange">Welcome back! Please login to continue.</p>
+    </div>
+    <br>
+    <div class="max-w-md mx-auto space-y-3 rounded-lg shadow-md">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Email -->
+            <div class="mb-4 text-white flex flex-col">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Password Field with Toggle -->
+            <div class="mb-4 text-white flex flex-col relative">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                <button type="button" id="toggle-login-password"
+                    class="absolute right-3 top-9 text-orange focus:outline-none">
+                    Show
+                </button>
+                {% if form.password.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+
+            <!-- Forgot Password -->
+            <div class="text-right mb-4">
+                <a href="#" class="text-orange hover:underline text-sm">
+                    Forgot password?
+                </a>
+            </div>
+
+            <!-- Keep me signed in -->
+            <div class="text-white mb-4 flex gap-3 items-center">
+                <input type="checkbox" id="remember_me" name="remember_me"
+                    class="checkbox border border-2 border-orange-400 checked:border-orange-500 checked:bg-orange-400 checked:text-black">
+                <label for="remember_me" class="text-sm">Keep me signed in</label>
+            </div>
+
+
+            <!-- Submit -->
+            <button type="submit" id="login-btn"
+                class="w-full bg-orange text-black p-4 my-2 rounded-xl hover:bg-orange-500 transition flex items-center justify-center gap-2">
+                <span class="btn-text">Login</span>
+                <svg id="login-spinner" class="hidden animate-spin h-5 w-5 text-black"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+            </button>
+
+        </form>
+    </div>
+
+    <p class="text-center text-white mt-4">
+        Don't have an account?
+        <a href="{% url 'accounts:register' %}" class="text-orange hover:underline">Register here</a>.
+    </p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const forms = document.querySelectorAll("form");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", function () {
+                const button = form.querySelector("button[type='submit']");
+                const spinner = button.querySelector("svg");
+                const text = button.querySelector(".btn-text");
+
+                if (spinner && text) {
+                    spinner.classList.remove("hidden");
+                    text.classList.add("hidden");
+                    button.disabled = true;
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function setupPasswordToggle(buttonId, inputSelector) {
+        const toggleBtn = document.getElementById(buttonId);
+        const passwordInput = document.querySelector(inputSelector);
+
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener("click", function () {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    toggleBtn.textContent = "Hide";
+                } else {
+                    passwordInput.type = "password";
+                    toggleBtn.textContent = "Show";
+                }
+            });
+        }
+    }
+
+    // Match form widget IDs
+    setupPasswordToggle("toggle-login-password", "#id_password");
+    setupPasswordToggle("toggle-register-password", "#id_password");
+});
+</script>
+
+
+{%endblock%}

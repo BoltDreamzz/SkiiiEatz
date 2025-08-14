@@ -1,6 +1,136 @@
-<h2>Register</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<style>
+    html {
+        scroll-behavior: smooth;
+        background: #000;
+    }
+</style>
+
+<div class="min-h-screen p-4 space-y-3">
+    <!-- Logo -->
+    <div class="w-full flex items-center justify-center min-h-36 mb-4">
+        <img src="{% static 'images/lgs.svg' %}" alt="" class="w-100 h-auto object-cover">
+    </div><br>
+
+    <!-- Heading -->
+    <div class="flex flex-col mb-4">
+        <h1 class="text-3xl font-black text-orange">Create an account.</h1>
+        <p class="text-orange">Join us today! Fill in your details to get started.</p>
+    </div>
+    <br>
+    <!-- Form -->
+    <div class="max-w-md mx-auto space-y-3 rounded-lg shadow-md">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="mb-4 text-white flex flex-col">
+                {{ form.full_name.label_tag }}
+                {{ form.full_name }}
+                {% if form.full_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.full_name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4 text-white flex flex-col">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Password Field with Toggle -->
+            <div class="mb-4 text-white flex flex-col relative">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                <button type="button" id="toggle-register-password"
+                    class="absolute right-3 top-9 text-orange focus:outline-none">
+                    Show
+                </button>
+                {% if form.password.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+
+            <!-- Terms -->
+            <div class="text-white mb-4 flex gap-3 items-center">
+                <input type="checkbox" id="terms" name="terms" required
+                    class="checkbox border border-2 border-orange-400 checked:border-orange-500 checked:bg-orange-400 checked:text-black">
+                <label for="terms" class="text-sm">I agree to the terms and conditions.</label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="register-btn"
+                class="w-full bg-orange text-black p-4 my-2 rounded-xl hover:bg-orange-500 transition flex items-center justify-center gap-2">
+                <span class="btn-text">Register</span>
+                <svg id="register-spinner" class="hidden animate-spin h-5 w-5 text-black"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+            </button>
+
+        </form>
+    </div>
+
+    <!-- Already have an account -->
+    <p class="text-center text-white mt-4">
+        Already have an account?
+        <a href="{% url 'accounts:login' %}" class="text-orange hover:underline">Login here</a>.
+    </p>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const forms = document.querySelectorAll("form");
+
+        forms.forEach(form => {
+            form.addEventListener("submit", function () {
+                const button = form.querySelector("button[type='submit']");
+                const spinner = button.querySelector("svg");
+                const text = button.querySelector(".btn-text");
+
+                if (spinner && text) {
+                    spinner.classList.remove("hidden");
+                    text.classList.add("hidden");
+                    button.disabled = true;
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function setupPasswordToggle(buttonId, inputSelector) {
+        const toggleBtn = document.getElementById(buttonId);
+        const passwordInput = document.querySelector(inputSelector);
+
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener("click", function () {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    toggleBtn.textContent = "Hide";
+                } else {
+                    passwordInput.type = "password";
+                    toggleBtn.textContent = "Show";
+                }
+            });
+        }
+    }
+
+    // Match form widget IDs
+    setupPasswordToggle("toggle-login-password", "#id_password");
+    setupPasswordToggle("toggle-register-password", "#id_password");
+});
+</script>
+
+{% endblock %}

@@ -7,6 +7,7 @@ from datetime import timedelta, time
 from geopy.geocoders import Nominatim
 from django.utils.text import slugify
 from core.utils import unique_slugify
+from sass.models import Business
 
 # 💰 Budget Categories
 CATEGORIES_CHOICES = [
@@ -44,6 +45,7 @@ class Supermarket(models.Model):
     open_time = models.TimeField(default=time(8, 0))   # Default 8:00 AM
     close_time = models.TimeField(default=time(22, 0)) # Default 10:00 PM
     preparation_time = models.PositiveIntegerField(default=30)  # Optional: Picking/packing time in minutes
+    business = models.OneToOneField(Business, on_delete=models.CASCADE, related_name='supermarket_details', null=True, blank=True)
 
     class Meta:
         ordering = ['-created_at']
