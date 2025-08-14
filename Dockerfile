@@ -18,8 +18,8 @@ RUN python manage.py collectstatic --noinput --clear
 # Step 6: Expose port 8000 for the web service
 EXPOSE 8000
 
-# Step 7: Set environment variable for Django settings
-ENV DJANGO_SETTINGS_MODULE=SkiiiEatz.settings
+# Step 7: Set environment config for Django settings
+ENV DJANGO_SETTINGS_MODULE=config.settings
 
 # Step 8: Command to run the web application using gunicorn
-CMD ["gunicorn", "SkiiiEatz.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
