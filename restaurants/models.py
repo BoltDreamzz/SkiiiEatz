@@ -45,7 +45,7 @@ class Restaurant(models.Model):
     # Open and close 
     open_time = models.TimeField(default=time(8, 0))   # default 8:00 AM
     close_time = models.TimeField(default=time(22, 0)) # default 10:00 PM   
-    business = models.OneToOneField(Business, on_delete=models.CASCADE, related_name='restaurant_details', null=True, blank=True)
+    # business = models.OneToOneField(Business, on_delete=models.CASCADE, related_name='restaurant_details', null=True, blank=True)
     
 
 

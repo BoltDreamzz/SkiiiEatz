@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AvatarSelectionForm
 from django.contrib import messages
+from core.models import Order
 
 @login_required
 def change_avatar(request):
@@ -34,14 +35,17 @@ from .models import UserProfile, Avatar
 @login_required
 def profile(request):
     avatars = Avatar.objects.all()
+    orders = Order.objects.filter(user=request.user, status='completed')
+    count_orders = orders.count()
     try:
 
         profile = request.user.userprofile
     except UserProfile.DoesNotExist:
         profile = None
         messages.success(request, '😉 You have no profile yet!')
+        return redirect('accounts:create_profile_view')
         
-    return render(request, 'accounts/profile.html', {'profile': profile, 'avatars': avatars})
+    return render(request, 'accounts/profile.html', {'profile': profile, 'avatars': avatars, 'orders': orders, 'count_orders': count_orders})
 
 
 
@@ -76,32 +80,36 @@ def register_view(request):
 
 
 def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('username')  # In your form, username field is actually email
-            password = form.cleaned_data.get('password')
+    try:
+        
+        if request.method == 'POST':
+            form = LoginForm(request, data=request.POST)
+            if form.is_valid():
+                email = form.cleaned_data.get('username')  # In your form, username field is actually email
+                password = form.cleaned_data.get('password')
 
-            # Authenticate using custom backend
-            user = authenticate(request, username=email, password=password)
+                # Authenticate using custom backend
+                user = authenticate(request, username=email, password=password)
 
-            if user is not None:
-                login(request, user)
+                if user is not None:
+                    login(request, user)
 
-                # Handle "keep me signed in"
-                if 'remember_me' in request.POST:
-                    request.session.set_expiry(1209600)  # 2 weeks
+                    # Handle "keep me signed in"
+                    if 'remember_me' in request.POST:
+                        request.session.set_expiry(1209600)  # 2 weeks
+                    else:
+                        request.session.set_expiry(0)  # expires on browser close
+
+                    messages.success(request, f'👋 Welcome back, {user.full_name}!')
+                    return redirect('core:explore')  # Change to your dashboard/home URL
                 else:
-                    request.session.set_expiry(0)  # expires on browser close
-
-                messages.success(request, f'👋 Welcome back, {user.full_name}!')
-                return redirect('core:explore')  # Change to your dashboard/home URL
+                    messages.error(request, '🚫 Invalid email or password.')
             else:
-                messages.error(request, '🚫 Invalid email or password.')
+                messages.error(request, '🚫 Please correct the errors below.')
         else:
-            messages.error(request, '🚫 Please correct the errors below.')
-    else:
-        form = LoginForm()
+            form = LoginForm()
+    except Exception as e:
+        messages.error(request, f'Ooops! {e}')
 
     return render(request, 'accounts/login.html', {'form': form})
 

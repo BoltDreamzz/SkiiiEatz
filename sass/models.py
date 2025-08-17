@@ -8,9 +8,26 @@ from accounts.models import User  # Assuming User model is in accounts app
 # from core.models import Order
 # User = get_user_model()
 
+
+class Business(models.Model):
+    BUSINESS_TYPES = (
+        ('restaurant', 'Restaurant'),
+        ('pharmacy', 'Pharmacy'),
+        ('supermarket', 'Supermarket'),
+    )
+    business_type = models.CharField(max_length=50, choices=BUSINESS_TYPES)
+    description = models.TextField(blank=True, null=True)
+    logo = models.ImageField(upload_to='business_logos/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.vendor.business_name} - {self.business_type}"
+
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vendor_profile')
     business_name = models.CharField(max_length=255)
+    business_type = models.ForeignKey(Business, on_delete=models.CASCADE, null=True, blank=True)
+
     phone = models.CharField(max_length=30, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     is_approved = models.BooleanField(default=False)
@@ -29,20 +46,6 @@ class Vendor(models.Model):
         except Exception:
             return 10.0
 
-class Business(models.Model):
-    BUSINESS_TYPES = (
-        ('restaurant', 'Restaurant'),
-        ('pharmacy', 'Pharmacy'),
-        ('supermarket', 'Supermarket'),
-    )
-    vendor = models.OneToOneField(Vendor, on_delete=models.CASCADE, related_name='business')
-    business_type = models.CharField(max_length=50, choices=BUSINESS_TYPES)
-    description = models.TextField(blank=True, null=True)
-    logo = models.ImageField(upload_to='business_logos/', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.vendor.business_name} - {self.business_type}"
 
 # class Restaurant(models.Model):
 #     business = models.OneToOneField(Business, on_delete=models.CASCADE, related_name='restaurant_details')

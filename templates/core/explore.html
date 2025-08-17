@@ -18,20 +18,10 @@
         }
     }
 </script>
-<div class="lg:hidden flex items-center justify-center mx-auto">
+<!-- <div class="lg:hidden flex items-center justify-center mx-auto">
     <img src="{%static 'images/two.png'%}" class="object-cover max-w-90 h-auto" alt="" data-aos="zoom-in-down">
-</div>
-<div class="p-3">
-    <!-- Header -->
-
-    <!-- Trigger Buttons -->
-    <!-- <button class="btn btn-primary">Open Modal 1</button> -->
-    <!-- <button class="btn btn-success">Open Modal 2</button> -->
-    <!-- <button class="btn btn-secondary" onclick="modal3.showModal()">Open Modal 3</button> -->
-
-
-
-    <!-- Mobile Search -->
+</div> -->
+<div class="p-3 max-w-5xl">
 
 
     <!-- Categories Section -->
@@ -105,20 +95,14 @@
     <div class="max-w-7xl mx-auto px-4">
         <!-- <h2 class="text-lg font-semibold mb-4">Ads</h2> -->
         <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2" id="ad-banner">
-            <div class="flex-shrink-0 text-center cursor-pointer" hx-get="">
-                <!-- <img src="{%static 'images/one.png'%}" class="object-cover max-w-90 h-auto" alt=""> -->
-                <img src="{%static 'images/skc.png'%}" class="object-cover w-80" alt="">
-            </div>
-            <div class="flex-shrink-0 text-center cursor-pointer" hx-get="">
-                <!-- <img src="{%static 'images/one.png'%}" class="object-cover max-w-90 h-auto" alt=""> -->
-                <img src="{%static 'images/jjss.png'%}" class="object-cover w-80" alt="">
-            </div>
+
+            <!-- <div class="flex-shrink-0 text-center cursor-pointer" hx-get=""> -->
+            <!-- <img src="{%static 'images/one.png'%}" class="object-cover max-w-90 h-auto" alt=""> -->
+            <img src="{%static 'images/jjss.png'%}" class="object-cover w-80" alt="">
+            <!-- </div> -->
 
 
-            <div class="flex-shrink-0 text-center cursor-pointer" hx-get="">
-                <img src="{%static 'images/two.png'%}" class="object-cover w-80" alt="">
-                <!-- <img src="{%static 'images/one.png'%}" class="object-cover max-w-90 h-auto" alt=""> -->
-            </div>
+
 
         </div>
     </div>
@@ -142,37 +126,38 @@
             <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
                 {% for restaurant in restaurants %}
                 <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
-                    <div
-                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
-                    <div class="relative">
-                        <img src="{{restaurant.image.url}}?height=120&width=256"
-                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
-                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
-                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-gray-400 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                {{ restaurant.rating|inline_star_rating|safe }}
+                    <div class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
+                        <div class="relative">
+                            <img src="{{restaurant.image.url}}?height=120&width=256" alt="Tony's Pizza"
+                                class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
+                            <div
+                                class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
+                                <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
                             </div>
-                            <span class="text-xs text-gray-600 ml-1">
-                                {{ restaurant.rating }}
-                                ({{restaurant.review_count|default:'10+'}})</span>
+                            <div class="absolute top-2 right-2 bg-white rounded-full p-1">
+                                <i class="fas fa-heart text-gray-400 text-sm"></i>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
+                        <div class="p-3">
+                            <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
+                            <div class="flex items-center mt-1">
+                                <div class="flex text-yellow-400 text-xs">
+                                    {{ restaurant.rating|inline_star_rating|safe }}
+                                </div>
+                                <span class="text-xs text-gray-600 ml-1">
+                                    {{ restaurant.rating }}
+                                    ({{restaurant.review_count|default:'10+'}})</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">
+                                    {{restaurant.tag|default:'Free delivery'}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </a>
                 {%endfor%}
-                
+
             </div>
         </div>
     </section>
@@ -187,37 +172,38 @@
             <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
                 {% for restaurant in restaurants %}
                 <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
-                    <div
-                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
-                    <div class="relative">
-                        <img src="{{restaurant.image.url}}?height=120&width=256"
-                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
-                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
-                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-gray-400 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                {{ restaurant.rating|inline_star_rating|safe }}
+                    <div class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
+                        <div class="relative">
+                            <img src="{{restaurant.image.url}}?height=120&width=256" alt="Tony's Pizza"
+                                class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
+                            <div
+                                class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
+                                <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
                             </div>
-                            <span class="text-xs text-gray-600 ml-1">
-                                {{ restaurant.rating }}
-                                ({{restaurant.review_count|default:'10+'}})</span>
+                            <div class="absolute top-2 right-2 bg-white rounded-full p-1">
+                                <i class="fas fa-heart text-gray-400 text-sm"></i>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
+                        <div class="p-3">
+                            <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
+                            <div class="flex items-center mt-1">
+                                <div class="flex text-yellow-400 text-xs">
+                                    {{ restaurant.rating|inline_star_rating|safe }}
+                                </div>
+                                <span class="text-xs text-gray-600 ml-1">
+                                    {{ restaurant.rating }}
+                                    ({{restaurant.review_count|default:'10+'}})</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">
+                                    {{restaurant.tag|default:'Free delivery'}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </a>
                 {%endfor%}
-                
+
             </div>
         </div>
     </section>
@@ -231,37 +217,40 @@
             <div class="flex space-x-4 overflow-x-auto scrollbar-hide pb-2">
                 {% for restaurant in restaurants %}
                 <a href="{%url 'core:restaurant_detail' restaurant.slug%}" class="text-decoration-none">
-                    <div
-                    class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
-                    <div class="relative">
-                        <img src="{{restaurant.image.url}}?height=120&width=256"
-                            alt="Tony's Pizza" class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
-                        <div class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
-                            <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
-                        </div>
-                        <div class="absolute top-2 right-2 bg-white rounded-full p-1">
-                            <i class="fas fa-heart text-gray-400 text-sm"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
-                        <div class="flex items-center mt-1">
-                            <div class="flex text-yellow-400 text-xs">
-                                {{ restaurant.rating|inline_star_rating|safe }}
+                    <div class="flex-shrink-0 w-64 p-2 hover:shadow-md transition-shadow rounded-2xl cursor-pointer">
+                        <div class="relative">
+                            <img src="{{restaurant.image.url}}?height=120&width=256" alt="Tony's Pizza"
+                                class="w-full h-32 object-cover rounded-2xl shadow-sm hover:shadow-md">
+                            <div
+                                class="absolute shadow top-2 left-2 bg-[#FFF1D9] text-white text-xs px-2 py-1 rounded-md">
+                                <img src="{%static 'images/prom.png'%}" alt="Pro Member" class="w-4 h-4">
                             </div>
-                            <span class="text-xs text-gray-600 ml-1">
-                                {{ restaurant.rating }}
-                                ({{restaurant.review_count|default:'10+'}})</span>
+                            <div class="absolute top-2 right-2 bg-white rounded-full p-1">
+                                <i class="fas fa-heart text-gray-400 text-sm"></i>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-xs text-gray-600">Before {{restaurant.preparation_time}} min •</span>
-                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">{{restaurant.tag|default:'Free delivery'}}</span>
+                        <div class="p-3">
+                            <h3 class="font-semibold text-gray-800">{{restaurant.name}}</h3>
+                            <div class="flex items-center mt-1">
+                                <div class="flex text-yellow-400 text-xs">
+                                    {{ restaurant.rating|inline_star_rating|safe }}
+                                </div>
+                                <span class="text-xs text-gray-600 ml-1">
+                                    {{ restaurant.rating }}
+                                    ({{restaurant.review_count|default:'10+'}})</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs text-gray-600">Before
+
+                                    {{restaurant.preparation_time}} min •</span>
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md">
+                                    {{restaurant.tag|default:'Free delivery'}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </a>
                 {%endfor%}
-                
+
             </div>
         </div>
     </section>

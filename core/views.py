@@ -132,7 +132,7 @@ def restaurant_detail(request, slug):
     
     categories = MenuItemCategory.objects.filter(restaurant=restaurant).prefetch_related(
         Prefetch('menu_items', queryset=MenuItem.objects.filter(available=True))
-    )
+    ).order_by('name')
 
     most_popular = MenuItem.objects.filter(restaurant=restaurant, available=True).order_by('name')[:5]
 

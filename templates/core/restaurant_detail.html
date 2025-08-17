@@ -31,17 +31,12 @@
     </div>
 </div>
 
-<main class="p-3">
-
-
-
-
+<main class="p-3 min-h-screen max-w-5xl">
 
     <!-- Restaurant Hero Section -->
     <section class="relative mb-3">
-        <div class="h-40 md:h-60 relative overflow-hidden rounded-2xl">
-            <img src="{{restaurant.image.url}}?height=320&width=800" alt="To{{restaurant.name}}"
-                class="w-full h-full object-cover">
+        <div class="h-60 md:h-80 relative overflow-hidden rounded-2xl">
+            <img src="{{restaurant.image.url}}" alt="{{restaurant.name}}" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-black bg-opacity-20"></div>
             <button class="absolute top-4 right-4 bg-white p-2 shadow-lg rounded-lg">
                 <i class="fas fa-heart text-gray-400 text-lg"><svg xmlns="http://www.w3.org/2000/svg"
@@ -54,25 +49,50 @@
                     </svg>
                 </i>
             </button>
+            <span
+                class="px-2 absolute flex items-center gap-2 text-white bottom-4 left-4 py-1 rounded-lg bg-primary border border-white text-sm">
+                <i class="fas fa-clock text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                        fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </i>
+                <span> {{restaurant.preparation_time}} min</span>
+            </span>
         </div>
 
         <!-- Restaurant Info Overlay -->
         <div class="rounded-2xl bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3">
             <div class="max-w-7xl mx-auto">
-                <h1 class="text-3xl font-bold mb-2">{{restaurant.name}}</h1>
-                <div class="flex items-center space-x-4 overflow-x-auto text-sm">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-3xl font-bold mb-2">{{restaurant.name}}</h1>
+
                     <div class="flex items-center">
                         <div class="flex text-yellow-400 text-lg">
-                            {{ restaurant.rating|inline_star_rating|safe }}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
                         </div>
-                        <span class="text-xs ml-1">
+                        <span class="text-xs ml-1 mt-1">
                             {{ restaurant.rating }}
-                            ({{restaurant.review_count|default:'10+'}})</span>
+                        </span>
                     </div>
-                    <span>•</span>
-                    <span class="px-2 py-1 rounded-lg bg-primary text-xs">{{restaurant.tags|default:'Lagos, Tasty' }}</span>
-                    <span>•</span>
-                    <span class="px-2 py-1 rounded-lg bg-primary text-xs">{{restaurant.budget_category|default:'$ Affordable'}}</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+
+                    <!-- <span>•</span> -->
+                    <span class="text-green-500 text-sm">
+                        {{restaurant.tags|default:'Lagos, Tasty'}}
+                    </span>
+                    <!-- <span>•</span> -->
+                    <span class="text-sm">
+                        {{restaurant.open_time}} - {{restaurant.close_time}}
+                    </span>
 
                     <!-- <span></span> -->
                 </div>
@@ -80,49 +100,65 @@
         </div>
     </section>
 
-    <!-- Quick Info Bar -->
-    <section class="mb-3 rounded-2xl">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-            <!-- <div class="flex items-center"> -->
-            <div class="flex items-center justify-between space-x-6">
-                <div class="flex flex-col text-xs items-center space-x-2">
-                    <i class="fas fa-clock text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" class="size-5">
-                            <path fill-rule="evenodd"
-                                d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </i>
-                    <span class="text-xs">{{restaurant.preparation_time}} min</span>
+    <section>
+
+        <!-- name of each tab group should be unique -->
+        <div class="tabs tabs-lift text-center">
+            <label class="tab rounded-2xl mb-3">
+                <input type="radio" name="my_tabs_4" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 me-2">
+                    <path
+                        d="M10 2a.75.75 0 0 1 .75.75v5.59l1.95-2.1a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0L6.2 7.26a.75.75 0 1 1 1.1-1.02l1.95 2.1V2.75A.75.75 0 0 1 10 2Z" />
+                    <path
+                        d="M5.273 4.5a1.25 1.25 0 0 0-1.205.918l-1.523 5.52c-.006.02-.01.041-.015.062H6a1 1 0 0 1 .894.553l.448.894a1 1 0 0 0 .894.553h3.438a1 1 0 0 0 .86-.49l.606-1.02A1 1 0 0 1 14 11h3.47a1.318 1.318 0 0 0-.015-.062l-1.523-5.52a1.25 1.25 0 0 0-1.205-.918h-.977a.75.75 0 0 1 0-1.5h.977a2.75 2.75 0 0 1 2.651 2.019l1.523 5.52c.066.239.099.485.099.732V15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3.73c0-.246.033-.492.099-.73l1.523-5.521A2.75 2.75 0 0 1 5.273 3h.977a.75.75 0 0 1 0 1.5h-.977Z" />
+                </svg>
+
+                Pickup
+            </label>
+            <div
+                class="tab-content items-center justify-center text-center bg-base-100 rounded-2xl border-base-300 p-6">
+                <div class="flex w-full flex-col items-center justify-center">
+                    <img src="{%static 'images/orderPack.png'%}" class="w-26 h-26 object-cover">
+                    <span>Upgrade to Skiiiplus to use the Pickup feature.</span>
+                    <!-- <a href="#" class="bg-black text-primary mt-2 px-3 py-2 rounded-2xl ">Upgrade Now</a> -->
+                    <a href="#" class="text-black mt-2 flex gap-2 items-center ">Upgrade Now <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 text-primary">
+  <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
+</svg>
+</a>
+
                 </div>
-                <div class="flex flex-col items-center space-x-2">
-                    <i class="fas fa-truck text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" class="size-5">
-                            <path
-                                d="M6.5 3c-1.051 0-2.093.04-3.125.117A1.49 1.49 0 0 0 2 4.607V10.5h9V4.606c0-.771-.59-1.43-1.375-1.489A41.568 41.568 0 0 0 6.5 3ZM2 12v2.5A1.5 1.5 0 0 0 3.5 16h.041a3 3 0 0 1 5.918 0h.791a.75.75 0 0 0 .75-.75V12H2Z" />
-                            <path
-                                d="M6.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM13.25 5a.75.75 0 0 0-.75.75v8.514a3.001 3.001 0 0 1 4.893 1.44c.37-.275.61-.719.595-1.227a24.905 24.905 0 0 0-1.784-8.549A1.486 1.486 0 0 0 14.823 5H13.25ZM14.5 18a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-                        </svg>
-                    </i>
-                    <span class="text-xs">₦1,999 delivery</span>
-                </div>
-                <div class="flex flex-col items-center space-x-2">
-                    <i class="fas fa-store text-primary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                            fill="currentColor" class="size-5">
-                            <path
-                                d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
-                        </svg>
-                    </i>
-                    <span class="text-xs">Pickup available</span>
-                </div>
+
             </div>
 
-            <!-- </div> -->
+            <label class="tab rounded-2xl mb-3">
+                <input type="radio" name="my_tabs_4" checked="checked" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"
+                    class="size-5 me-2">
+                    <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                    <path
+                        d="m21.96,7.74s-.02-.05-.03-.07c-.02-.06-.04-.11-.07-.17-.02-.03-.04-.05-.06-.08-.03-.04-.06-.09-.1-.13-.03-.03-.06-.04-.08-.07-.04-.03-.07-.06-.11-.09,0,0,0,0-.01,0,0,0,0,0,0,0L12.49,2.13c-.3-.17-.67-.17-.97,0L2.58,7.1s-.06.02-.09.04c-.31.18-.49.51-.49.86v8c0,.36.2.7.51.87l9,5s.1.04.14.06c.03.01.06.03.09.03.08.02.17.03.25.03s.17-.01.25-.03c.03,0,.06-.02.09-.03.05-.02.1-.03.14-.06l9-5c.32-.18.51-.51.51-.87v-8c0-.09-.01-.18-.04-.26Zm-9.96-3.59l6.94,3.86-2.24,1.25-6.84-3.91,2.14-1.19Zm0,7.71l-6.92-3.86,2.74-1.52,6.84,3.91-2.65,1.47Zm8,3.56l-7,3.89v-5.71l3-1.67v3.08l2-1v-3.19l2-1.11v5.71Z">
+                    </path>
+                </svg>
+                Delivery
+            </label>
+            <div class="tab-content bg-base-100 rounded-2xl border-base-300 p-6">
+                <div class="flex w-full flex-col items-center justify-center">
+                    <img src="{%static 'images/deldel.png'%}" class="w-26 h-26 object-cover">
+                    <span>Please note that the Delivery Man will arrive your location in 40 mins, pay
+                        only 2k...
+                    </span>
+                </div>
+
+
+            </div>
+
         </div>
     </section>
 
+    <br>
 
     <!-- Floating Menu Categories Scroll -->
+    {%if categories|length > 0%}
     <section class="bg-white sticky rounded-2xl top-16 z-50 border-b">
         <div class="max-w-7xl mx-auto px-4 py-4">
             <div class="flex items-center justify-center space-x-6 overflow-x-auto scrollbar-hide" id="menu-categories">
@@ -139,7 +175,7 @@
             </div>
         </div>
     </section>
-
+    {%endif%}
 
     <!-- Special Offers Banner -->
 
@@ -147,7 +183,7 @@
     <!-- Menu Items Grid -->
     <section class="py-6" id="menu-items">
 
-        <div class="max-w-7xl mx-auto px-3" id="popular">
+        <div class="max-w-7xl mx-auto px-3">
 
             <!-- Popular Items -->
             {%if most_popular%}
@@ -165,7 +201,7 @@
                     Most Popular
                 </h2>
 
-                <div id="category-scroll-container" id="eateries-list"
+                <div id="category-scroll-container" id="popular"
                     class="flex overflow-x-auto -mx-4 px-4 sm:px-0 sm:-mx-0 scroll-smooth no-scrollbar">
                     <!-- Promotions -->
                     {%for e in most_popular%}
@@ -174,7 +210,7 @@
                         data-price="{{ e.price }}" data-image="{{ e.image.url }}"
                         data-ingredients="{{ e.ingredients|default:'Freshly bought ingredients'|escapejs }}"
                         data-description="{{ e.description|default:'This meal is freshly cooked out of the Kitchen!'|escapejs }}"
-                        data-url="#" data-description="{{ e.description }}" data-calories="{{ e.calories|default:'0' }}"
+                        data-url="" data-description="{{ e.description }}" data-calories="{{ e.calories|default:'0' }}"
                         data-tags="{{ e.tags|default:'No tags'|escapejs }}">
                         <div href=""
                             class="flex-shrink-0 w-[calc(50%-12px)] sm:w-[calc(33.33%-16px)] md:w-[calc(25%-16px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-16px)] mr-3 mb-2 sm:mr-4">
@@ -197,15 +233,9 @@
                                             ₦{{e.price|intcomma}}</h3>
                                         <a href="#" class="text-decoration-none">
                                             <div class="flex items-center text-xs text-gray-500 font-semibold">
-                                                <i class="fas fa-star text-primary mr-1"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" class="size-3">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                                            clip-rule="evenodd" />
-                                                    </svg>
+                                                <i class="fas fa-star text-primary mr-1">
                                                 </i>
-                                                <span>{{m.rating}}</span>
+                                                <!-- <span>{{m.rating}}</span> -->
                                             </div>
                                         </a>
                                     </div>
@@ -260,7 +290,7 @@
                             data-price="{{ e.price }}" data-image="{{ e.image.url }}"
                             data-ingredients="{{ e.ingredients|default:'Freshly bought ingredients'|escapejs }}"
                             data-description="{{ e.description|default:'This meal is freshly cooked out of the Kitchen!'|escapejs }}"
-                            data-url="#" data-description="{{ e.description }}"
+                            data-url="" data-description="{{ e.description }}"
                             data-calories="{{ e.calories|default:'0' }}"
                             data-tags="{{ e.tags|default:'No tags'|escapejs }}">
                             <div href=""
@@ -284,15 +314,9 @@
                                                 ₦{{e.price|intcomma}}</h3>
                                             <a href="#" class="text-decoration-none">
                                                 <div class="flex items-center text-xs text-gray-500 font-semibold">
-                                                    <i class="fas fa-star text-primary mr-1"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="size-3">
-                                                            <path fill-rule="evenodd"
-                                                                d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                                                                clip-rule="evenodd" />
-                                                        </svg>
+                                                    <i class="fas fa-star text-primary mr-1">
                                                     </i>
-                                                    <span>{{m.rating|default:'1.8'}}</span>
+                                                    <!-- <span>{{m.rating|default:'1.8'}}</span> -->
                                                 </div>
                                             </a>
                                         </div>
@@ -319,105 +343,212 @@
 
 
     </section>
+    <!-- Overlay and Modal Container -->
+    <!-- MODAL BACKDROP -->
+    <div id="mealModalBackdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
 
-    
+    <!-- MODAL SLIDE-UP -->
+    <div id="mealModal"
+        class="fixed bottom-0 left-0 w-full flex flex-col justify-center items-center h-[95vh] bg-white z-50 rounded-t-3xl shadow-2xl translate-y-full transition-transform duration-300 ease-in-out py-4 px-2">
+        <div class="p-4 space-y-4 h-full max-w-5xl overflow-y-auto no-scrollbar">
+            <div class="flex justify-between items-center">
+                <button id="closeModal" class="bg-gray-200 p-3 rounded-2xl text-xl m-2"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                        <path fill-rule="evenodd"
+                            d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
 
+
+            </div>
+            <img id="modalMealImage" src="" alt=""
+                class="w-full lg:max-w-5xl text-center h-60 object-cover rounded-3xl shadow" />
+            <form id="modalForm" class="space-y-4">
+                <h2 id="modalMealName" class="text-3xl mb-2 font-semibold"></h2>
+                <div class="flex items-center justify-between mb-2">
+                    <p class="font-bold text-3xl">₦<span id="modalMealPrice"></span></p>
+
+                    <!-- Quantity Selector -->
+                    <div class="flex items-center justify-center gap-4">
+                        <button type="button" id="decreaseQty"
+                            class="bg-gray-200 text-black p-3 rounded-2xl text-xl"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5">
+                                <path fill-rule="evenodd"
+                                    d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <span id="qtyDisplay" class="text-2xl font-semibold">1</span>
+                        <button type="button" id="increaseQty"
+                            class="bg-gray-200 text-black p-3 rounded-2xl text-xl"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="size-5">
+                                <path
+                                    d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="mb-2 flex flex-col space-y-3">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0ZM8.94 6.94a.75.75 0 1 1-1.061-1.061 3 3 0 1 1 2.871 5.026v.345a.75.75 0 0 1-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 1 0 8.94 6.94ZM10 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-xl">About this meal</p>
+
+                    </div>
+                    <p id="modalMealDescription" class="text-gray-600 text-sm max-h-32 overflow-auto leading-relaxed">
+                        This meal is freshly cooked out of the Kitchen!
+                    </p>
+                </div>
+                <div class="mb-2 flex flex-col space-y-3">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path
+                                d="M2 4.25A2.25 2.25 0 0 1 4.25 2h2.5A2.25 2.25 0 0 1 9 4.25v2.5A2.25 2.25 0 0 1 6.75 9h-2.5A2.25 2.25 0 0 1 2 6.75v-2.5ZM2 13.25A2.25 2.25 0 0 1 4.25 11h2.5A2.25 2.25 0 0 1 9 13.25v2.5A2.25 2.25 0 0 1 6.75 18h-2.5A2.25 2.25 0 0 1 2 15.75v-2.5ZM11 4.25A2.25 2.25 0 0 1 13.25 2h2.5A2.25 2.25 0 0 1 18 4.25v2.5A2.25 2.25 0 0 1 15.75 9h-2.5A2.25 2.25 0 0 1 11 6.75v-2.5ZM15.25 11.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
+                        </svg>
+                        <p class="text-xl">Additional Info</p>
+
+                    </div>
+                    <p><strong>Ingredients:</strong> <span id="modalMealIngredients"></span></p>
+                    <p><strong>Calories:</strong> <span id="modalMealCalories"></span> kcal</p>
+                    <p><strong>Tags:</strong> <span id="modalMealTags"></span></p>
+                </div> -->
+
+
+                <input type="hidden" id="mealId" name="meal_id">
+
+
+                <br><br>
+                <!-- Add to Cart Button -->
+                <div class="w-full max-w-5xl pt-2 sticky bottom-0 border-t shadow-t">
+                    <button type="submit" id="addToCartBtn"
+                        class="w-full bg-primary text-white py-4 rounded-2xl font-semibold transition-all">
+                        Add to Cart
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('mealModal');
+        const modalDesc = document.getElementById('modalMealDescription');
+        const modalIngredients = document.getElementById('modalMealIngredients');
+        const modalCalories = document.getElementById('modalMealCalories');
+        const modalTags = document.getElementById('modalMealTags');
+
+        const backdrop = document.getElementById('mealModalBackdrop');
+        const openButtons = document.querySelectorAll('.openDetail');
+        const closeModal = document.getElementById('closeModal');
+
+        const modalName = document.getElementById('modalMealName');
+        const modalImage = document.getElementById('modalMealImage');
+        const modalPrice = document.getElementById('modalMealPrice');
+        const mealIdInput = document.getElementById('mealId');
+        const qtyDisplay = document.getElementById('qtyDisplay');
+        const addToCartBtn = document.getElementById('addToCartBtn');
+
+        let currentQty = 1;
+
+        // OPEN MODAL
+        openButtons.forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const name = this.dataset.name;
+                const price = this.dataset.price;
+                const image = this.dataset.image;
+                const id = this.dataset.id;
+                const url = this.dataset.url;
+                const desc = this.dataset.description;
+                // Set modal content
+
+                modalIngredients.textContent = this.dataset.ingredients;
+                modalCalories.textContent = this.dataset.calories;
+                modalTags.textContent = this.dataset.tags;
+
+                modalName.textContent = name;
+                modalImage.src = image;
+                modalPrice.textContent = parseInt(price).toLocaleString();
+                mealIdInput.value = id;
+                modalDesc.textContent = desc;
+                qtyDisplay.textContent = 1;
+                currentQty = 1;
+                addToCartBtn.dataset.url = url;
+                addToCartBtn.disabled = false;
+                addToCartBtn.textContent = 'Add to Cart';
+
+                // Show modal and backdrop
+                backdrop.classList.remove('hidden');
+                modal.classList.remove('translate-y-full');
+            });
+        });
+
+        // CLOSE MODAL
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('translate-y-full');
+            backdrop.classList.add('hidden');
+        });
+
+        // Quantity controls
+        document.getElementById('increaseQty').addEventListener('click', () => {
+            currentQty++;
+            qtyDisplay.textContent = currentQty;
+        });
+
+        document.getElementById('decreaseQty').addEventListener('click', () => {
+            if (currentQty > 1) {
+                currentQty--;
+                qtyDisplay.textContent = currentQty;
+            }
+        });
+
+        // Submit form
+        document.getElementById('modalForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const url = addToCartBtn.dataset.url;
+
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = 'Adding...';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: currentQty })
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to add to cart");
+                    return res.json();
+                })
+                .then(data => {
+                    addToCartBtn.textContent = 'Added ✔';
+                    setTimeout(() => {
+                        modal.classList.add('translate-y-full');
+                        backdrop.classList.add('hidden');
+                    }, 800);
+                })
+                .catch(err => {
+                    alert('Error adding to cart');
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.textContent = 'Add to Cart';
+                });
+        });
+    </script>
 
     <!-- HTMX Scripts -->
 
 </main>
-<!-- Hero Section -->
-<!-- <section class="relative bg-dark-navy text-white py-20 text-center overflow-hidden">
-    <img src="{{eatery.image.url}}?height=600&width=1200" alt="Restaurant interior"
-        class="absolute inset-0 w-full h-full object-cover opacity-30">
-    <div class="relative z-10 container mx-auto px-4">
-        <h2 class="text-5xl font-extrabold mb-4 text-orange-accent">Welcome to {{eatery.name}}</h2>
-        <p class="text-xl max-w-2xl mx-auto mb-8">Experience a culinary journey with our exquisite dishes, crafted with
-            passion and the freshest ingredients.</p>
-        <a href="#menu"
-            class="bg-orange-accent text-dark-navy font-bold py-3 px-8 rounded-full hover:bg-white hover:text-dark-navy transition-all duration-300 shadow-lg">Explore
-            Our Menu</a>
-    </div>
-</section> -->
 
 
 
-<div class="container my-6 w-full">
-    <div class="container mx-auto px-3 py-3">
 
 
-
-        
-        <section class="mx-auto py-6 px-3">
-            <!-- <div class="text-center"> -->
-
-            <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
-                class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
-                Contact <span style="color: #fca311;">Us</span></h4>
-            <!-- <p class="text-gray-600 mb-6">Order your dream Meal in a Flash.</p> -->
-            <!-- </div> -->
-            <div class="container py-4 text-center max-w-7xl">
-                <div class="flex flex-col items-center justify-center gap-4">
-                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
-                        <img src="{%static 'badges/faceb.png'%}" class="w-10 -mt-1" alt="">
-                        <span class="font-semibold text-sm sm:text-base text-dark-blue">Facebook</span>
-                    </a>
-                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
-                        <img src="{%static 'badges/whats.png'%}" class="w-10" alt="">
-                        <span class="font-semibold text-sm sm:text-base text-dark-blue">WhatsApp</span>
-                    </a>
-
-
-                    <a href="" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
-                        <img src="{%static 'badges/tok.png'%}" class="w-10" alt="">
-                        <span class="font-semibold text-sm sm:text-base text-dark-blue">TikTok</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-        <section class="mx-auto py-6 px-3">
-            <div class="text-center">
-                <h4 style="font-family: 'Modak', sans-serif; color: #14213d;"
-                    class="text-4xl font-semibold text-orange-accent mb-6 border-b-2 border-orange-accent pb-2">
-                    Join Our <span style="color: #fca311;">Team</span></h4>
-                <p class="text-gray-600 mb-6">Become a part of our vibrant team and help us deliver exceptional
-                    dining experiences.</p>
-            </div>
-            <div class="container py-4 text-center max-w-7xl">
-                <a href="#" class="btn w-50 flex py-2 px-3 rounded-2xl bg-white items-center space-x-1 sm:space-x-2">
-                    <a
-                        class="flex-shrink-0 w-[calc(50%-12px)] sm:w-[calc(33.33%-16px)] md:w-[calc(25%-16px)] lg:w-[calc(33.33%-16px)] xl:w-[calc(25%-16px)] mr-3 sm:mr-4">
-                        <div class="rounded-lg hover:shadow-md transition-shadow">
-                            <div
-                                class="p-3 sm:p-4 bg-orange-200 flex-col rounded-2xl min-h-32 flex items-center justify-center">
-                                <img src="{%static 'badges/verified.png'%}?w=50&h=50" alt="Join the Universe"
-                                    class="h-10 sm:h-12 object-cover rounded-md mb-2 sm:mb-3">
-                                <div class="flex items-center justify-center mb-2">
-                                    <h3 class="font-bold text-sm line-clamp-2">Join the Universe </h3>
-
-                                    <!-- <span
-                                                class="bg-orange py-1 px-2 badge text-dark-blue rounded-lg text-xs"><svg
-                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="size-5">
-                                                    <path
-                                                        d="M12.232 4.232a2.5 2.5 0 0 1 3.536 3.536l-1.225 1.224a.75.75 0 0 0 1.061 1.06l1.224-1.224a4 4 0 0 0-5.656-5.656l-3 3a4 4 0 0 0 .225 5.865.75.75 0 0 0 .977-1.138 2.5 2.5 0 0 1-.142-3.667l3-3Z" />
-                                                    <path
-                                                        d="M11.603 7.963a.75.75 0 0 0-.977 1.138 2.5 2.5 0 0 1 .142 3.667l-3 3a2.5 2.5 0 0 1-3.536-3.536l1.225-1.224a.75.75 0 0 0-1.061-1.06l-1.224 1.224a4 4 0 1 0 5.656 5.656l3-3a4 4 0 0 0-.225-5.865Z" />
-                                                </svg> -->
-                                    </span>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <div>
-                                        <span class="text-xs flex gap-2 items-center">Sponsored</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </a>
-            </div>
-        </section>
-
-
-        {% endblock %}
+{% endblock %}

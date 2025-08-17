@@ -1,0 +1,10 @@
+def all_restaurants(request):
+    restaurants = Restaurant.objects.all()
+    sponsored_restaurants = restaurants.filter(is_sponsored=True).order_by('-rating')[:5]  # Example logic for sponsored restaurants
+    context = {
+        'restaurants': restaurants,
+        'sponsored_restaurants': sponsored_restaurants,
+    }
+    return render(request, 'core/all_restaurants.html', context)
+
+Paginate the restaurants to show 10 per page. is it possible to get the next or previous page if there is by ajax or htmx then display a skeleton load while request in flighjt without reloading the screen

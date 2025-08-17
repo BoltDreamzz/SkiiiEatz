@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-80j&#$qepvqq6ld6-69)ek1(42rcs!#*b1yo!!)$95(iqsu19j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['skiiieatz.onrender.com']
+ALLOWED_HOSTS = ['skiiieatz.onrender.com', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://skiiieatz.onrender.com']
 AUTH_USER_MODEL = 'accounts.User'
 

@@ -33,7 +33,7 @@
                 {{ form.full_name.label_tag }}
                 {{ form.full_name }}
                 {% if form.full_name.errors %}
-                <p class="text-red-500 text-sm mt-1">{{ form.full_name.errors.0 }}</p>
+                <p class="text-blue-500 text-sm mt-1">{{ form.full_name.errors.0 }}</p>
                 {% endif %}
             </div>
 
@@ -42,7 +42,7 @@
                 {{ form.email.label_tag }}
                 {{ form.email }}
                 {% if form.email.errors %}
-                <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+                <p class="text-blue-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
                 {% endif %}
             </div>
 
@@ -55,7 +55,7 @@
                     Show
                 </button>
                 {% if form.password.errors %}
-                <p class="text-red-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
+                <p class="text-blue-500 text-sm mt-1">{{ form.password.errors.0 }}</p>
                 {% endif %}
             </div>
 
